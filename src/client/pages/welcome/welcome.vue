@@ -77,7 +77,10 @@ async function onSubmit() {
                     id: true,
                     nickname: true,
                     username: true,
-                    role: true
+                    role: true,
+                    desktop: {
+                        name: true
+                    }
                 }
             ]
         })
