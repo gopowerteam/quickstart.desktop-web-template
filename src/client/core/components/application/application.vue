@@ -177,7 +177,7 @@ const navigate = {
             })
         }
     },
-    async back({ data, callback }: { data?: any; callback: Function } = {}) {
+    async back({ data, callback }: { data?: any; callback?: Function } = {}) {
         if (routes.length === 1) return
         if (callback && (await callback()) === false) return
 
