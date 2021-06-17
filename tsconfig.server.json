@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "declaration": true,
+        "removeComments": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": false,
+        "allowSyntheticDefaultImports": true,
+        "target": "es2017",
+        "sourceMap": true,
+        "outDir": "./dist/server",
+        "baseUrl": "./",
+        "incremental": true,
+        "lib": ["ESNext"],
+        "paths": {
+            "@/*": ["./src/client/*"],
+            "@apps/*": ["./src/client/apps/*"],
+            "@server/*": ["./src/server/*"]
+        }
+    },
+    "include": ["src/server/**/*.ts"]
+}

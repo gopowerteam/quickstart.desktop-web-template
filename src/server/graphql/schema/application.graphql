@@ -1,0 +1,66 @@
+type Admin {
+    userid: String!
+    title: String
+    name: String
+}
+
+type App {
+    name: String
+    title: String
+    icon: String
+    group: Group
+}
+
+type Group {
+    _id: String
+    name: String
+    order: Int
+}
+
+type User {
+    userid: String
+    apps: [String]
+}
+type Role {
+    roleid: String
+    apps: [String]
+}
+
+input GroupInput {
+    _id: String
+    name: String
+    order: Int
+}
+
+input AdminInput {
+    userid: String!
+    title: String
+    name: String
+}
+
+input AppInput {
+    name: String!
+    title: String
+    icon: String
+    group: String
+}
+
+type Query {
+    GetAdminList: [Admin]
+    GetAppList: [App]
+    GetGroupList: [Group]
+    GetUserDesktopApps(userid: String): User
+    GetRoleById(roleid: Int): Role
+}
+
+type Mutation {
+    AddAdminList(users: [AdminInput]): [Admin]
+    SyncAppList(apps: [AppInput]): [App]
+    AddGroup(group: GroupInput): Group
+    UpdateApp(app: AppInput): App
+    UpdateGroup(group: GroupInput): Group
+    DeleteGroup(id: String): Group
+    AddUserDesktopApp(userid: String, app: String): User
+    DeleteUserDesktopApp(userid: String, app: String): User
+    UpdateRole(roleid: Int, apps: [String]): Role
+}

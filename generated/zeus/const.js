@@ -1,0 +1,71 @@
+/* eslint-disable */
+
+export const AllTypesProps = {
+	Query:{
+		loginByPassword:{
+			username:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
+			},
+			password:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		}
+	},
+	UserRole: "enum",
+	Mutation:{
+		registerUser:{
+			user:{
+				type:"RegisterUserInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		}
+	},
+	RegisterUserInput:{
+		username:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		password:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		}
+	}
+}
+
+export const ReturnTypes = {
+	Query:{
+		getAppList:"App",
+		loginByPassword:"User"
+	},
+	App:{
+		name:"String",
+		title:"String",
+		icon:"String",
+		group:"Group"
+	},
+	Group:{
+		name:"String"
+	},
+	User:{
+		username:"String",
+		password:"String",
+		nickname:"String",
+		role:"UserRole",
+		desktop:"App"
+	},
+	Mutation:{
+		registerUser:"User"
+	}
+}

@@ -1,0 +1,70 @@
+$min-width = 1024px
+
+html,body,#app,
+    height 100%
+    width 100%
+    min-width $min-width
+
+.application-container,
+.application-center-wrapper
+    min-width $min-width
+
+
+.ant-tabs-nav .ant-tabs-tab
+    height auto
+
+.ant-pagination-item-link
+    img,svg
+        height 100%
+
+.data-form
+    .ant-form
+        .ant-form-item-label
+            line-height 32px
+
+/* 滚动槽 */
+::-webkit-scrollbar 
+    width: 6px;
+    height: 6px;
+
+::-webkit-scrollbar-track
+    border-radius 5px;
+    background rgba(0,0,0,0.06);
+    -webkit-box-shadow inset 0 0 5px rgba(0,0,0,0.08);
+
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb
+    border-radius 5px
+    background rgba(0,0,0,0.12)
+    -webkit-box-shadow inset 0 0 10px rgba(0,0,0,0.2)
+
+/*日期选择器图标修正*/
+.ant-calendar>.ant-calendar-panel>.ant-calendar-date-panel>.ant-calendar-header>div>a
+    display flex
+    align-items center
+
+/*select超出显示问题*/
+.ant-select-selector
+    z-index 999
+
+.ant-image-preview-root
+    .ant-image-preview-wrap 
+        .ant-image-preview-content
+            .ant-image-preview-body
+                .ant-image-preview-img-wrapper
+                    display flex
+                    align-items center
+                    justify-content center
+
+                    img.ant-image-preview-img
+                        margin auto
+
+
+.column-container,
+.column-item
+    height inherit
+    
+    .data-card,
+    .ant-card,
+    .ant-card-body
+        height inherit

@@ -1,0 +1,12 @@
+server:
+    host: 0.0.0.0
+    port: 3000
+client:
+    debug: false
+proxy:
+    target: http://127.0.0.1
+database:
+    type: better-sqlite3
+    database: ./.data/database.sqlite
+    logging: true
+    debug: true

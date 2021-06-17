@@ -1,0 +1,13 @@
+{
+    "volar.tsPlugin": false,
+    "css.validate": false,
+    "less.validate": false,
+    "scss.validate": false,
+    "css.lint.unknownAtRules": "ignore",
+    "stylelint.enable": true,
+    "stylelint.customSyntax": "stylelint-plugin-stylus/custom-syntax",
+    "stylelint.validate": ["stylus"],
+    "editor.quickSuggestions": {
+        "strings": true
+    }
+}
