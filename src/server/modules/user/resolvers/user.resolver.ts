@@ -1,7 +1,7 @@
-import { UserRole } from '@server/config/enum.config'
-import { App } from '@server/entities/app.entity'
-import { User } from '@server/entities/user.entity'
-import { UserService } from '@server/services/user.service'
+import { UserRole } from '@server/constants/enum.config'
+import { App } from '@server/modules/app/entities/app.entity'
+import { User } from '@server/modules/user/entities/user.entity'
+import { UserService } from '@server/modules/user/services/user.service'
 import {
     Args,
     Arg,

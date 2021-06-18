@@ -1,6 +1,6 @@
 import { Module, DynamicModule, Global } from '@nestjs/common'
 import { ConfigService } from './services/config.service'
-import { APP_CONFIG_PROVIDER } from '../../core/constant'
+import { APP_CONFIG_PROVIDER } from '@server/core/constant'
 
 @Global()
 @Module({})

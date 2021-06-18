@@ -1,6 +1,10 @@
 import { Entity, Column, PrimaryColumn, ManyToOne } from 'typeorm'
 import { Group } from './group.entity'
-import { EntityClass, EntityWithDate, EntityWithEnable } from './index'
+import {
+    EntityClass,
+    EntityWithDate,
+    EntityWithEnable
+} from '@server/entities/index'
 import { Field, ObjectType } from 'type-graphql'
 import { pipe } from 'ramda'
 

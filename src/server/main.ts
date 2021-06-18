@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core'
-import { AppModule } from './app.module'
+import { MainModule } from './main.module'
 import { createServer } from './ssr'
 import { ExpressAdapter } from '@nestjs/platform-express'
 import { Application } from './core/application'
 import * as Express from 'express'
 import { APP_CONFIG_PROVIDER } from './core/constant'
-import { Logger } from './modules/logger/services/logger.service'
+import { Logger } from './logger/services/logger.service'
 
 /**
  * 创建服务实例
@@ -14,7 +14,7 @@ import { Logger } from './modules/logger/services/logger.service'
 async function createApp() {
     const express = Express()
     const { app: server, registerApp } = await createServer(express)
-    const app = NestFactory.create(AppModule, new ExpressAdapter(server), {
+    const app = NestFactory.create(MainModule, new ExpressAdapter(server), {
         bodyParser: false
     }).then(Application.initialize)
 

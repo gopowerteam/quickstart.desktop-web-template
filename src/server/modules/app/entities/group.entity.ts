@@ -2,7 +2,7 @@ import { pipe } from 'ramda'
 import { Field, ObjectType } from 'type-graphql'
 import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm'
 import { App } from './app.entity'
-import { EntityClass, EntityWithID } from './index'
+import { EntityClass, EntityWithID } from '@server/entities/index'
 
 @Entity('group')
 @ObjectType()

@@ -2,10 +2,10 @@ import { get } from 'lodash'
 import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { join } from 'path'
 import { readdirSync } from 'fs'
-import { ConfigService } from '@server/modules/config/services/config.service'
-import { User } from '@server/entities/user.entity'
-import { App } from '@server/entities/app.entity'
-import { Group } from '@server/entities/group.entity'
+import { ConfigService } from '@server/config/services/config.service'
+import { User } from '@server/modules/user/entities/user.entity'
+import { App } from '@server/modules/app/entities/app.entity'
+import { Group } from '@server/modules/app/entities/group.entity'
 
 const ENTITY_PATH = join(__dirname, '..', '..', '..', 'entities')
 
@@ -13,9 +13,9 @@ export class DatabaseService {
     private entities: any[] = []
 
     constructor(private config: ConfigService) {
-        DatabaseService.getEntities().then(
-            entities => (this.entities = entities)
-        )
+        // DatabaseService.getEntities().then(
+        //     entities => (this.entities = entities)
+        // )
     }
 
     /**
@@ -43,7 +43,8 @@ export class DatabaseService {
         return {
             ...config,
             synchronize: true,
-            entities: this.entities
+            // TODO 修改为动态加载
+            entities: [User, App, Group]
         }
     }
 }

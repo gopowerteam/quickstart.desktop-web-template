@@ -1,6 +1,6 @@
-import { App } from '@server/entities/app.entity'
-import { Group } from '@server/entities/group.entity'
-import { AppService } from 'src/server/services/app.service'
+import { App } from '@server/modules/app/entities/app.entity'
+import { Group } from '@server/modules/app/entities/group.entity'
+import { AppService } from '@server/modules/app/services/app.service'
 import {
     Arg,
     Field,

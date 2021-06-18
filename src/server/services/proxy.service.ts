@@ -2,10 +2,10 @@ import * as HttpProxy from 'http-proxy'
 import { Request, Response } from 'express'
 import * as http from 'http'
 import * as url from 'url'
-import { ConfigService } from '../modules/config/services/config.service'
+import { ConfigService } from '../config/services/config.service'
 import { APP_CONFIG_PROVIDER } from '../core/constant'
 import { Inject } from '@nestjs/common'
-import { Logger } from '../modules/logger/services/logger.service'
+import { Logger } from '../logger/services/logger.service'
 import { safeEncodeURI } from '../shared/utils'
 
 export class ProxyService {

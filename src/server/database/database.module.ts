@@ -6,14 +6,12 @@ import {
     APP_CONFIG_PROVIDER,
     APP_DATABASE_PROVIDER
 } from '@server/core/constant'
-import { App } from '@server/entities/app.entity'
-import { User } from '@server/entities/user.entity'
 
 @Global()
 @Module({})
 export class DatabaseModule {
     public static async forRoot(): Promise<DynamicModule> {
-        const entities = await DatabaseService.getEntities()
+        // const entities = await DatabaseService.getEntities()
 
         const providers = [
             {
@@ -34,8 +32,7 @@ export class DatabaseModule {
                         return database.getConfig()
                     },
                     inject: [APP_DATABASE_PROVIDER]
-                }),
-                TypeOrmModule.forFeature(entities)
+                })
             ],
             module: DatabaseModule,
             providers: [...providers],
