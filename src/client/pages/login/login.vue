@@ -86,7 +86,7 @@ function onSubmit(...a) {
 
     loginRequest
         .then(({ loginByPassword: user }) => {
-            store.commit('user/updateUser', user)
+            store.dispatch('user/login', user)
             router.push({ path: '/' })
         })
         .catch(() => {

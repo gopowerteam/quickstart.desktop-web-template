@@ -49,6 +49,16 @@ export class AppResolver implements ResolverInterface<App> {
         return await this.appService.syncAppList(apps)
     }
 
+    @Mutation(returns => App)
+    async AddUserDesktopApp(@Arg('app') app: AppInput) {
+        return await this.appService.addUserDesktopApp(app)
+    }
+
+    @Mutation(returns => App)
+    async RemoveUserDesktopApp(@Arg('app') appName: string) {
+        return await this.appService.removeUserDesktopApp(appName)
+    }
+
     @FieldResolver(returns => Group)
     async group(@Root() app: App) {
         return app.group

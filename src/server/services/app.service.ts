@@ -32,4 +32,14 @@ export class AppService {
 
         return await this.getAppList()
     }
+
+    async addUserDesktopApp(app: Partial<App>) {
+        // TODO
+        return app
+    }
+
+    async removeUserDesktopApp(appName: string) {
+        // TODO
+        return {}
+    }
 }

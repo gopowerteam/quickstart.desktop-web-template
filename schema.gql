@@ -25,6 +25,8 @@ type Group {
 }
 
 type Mutation {
+  AddUserDesktopApp(app: AppInput!): App!
+  RemoveUserDesktopApp(app: String!): App!
   registerUser(user: RegisterUserInput!): User!
   syncAppList(apps: [AppInput!]!): [App!]!
 }

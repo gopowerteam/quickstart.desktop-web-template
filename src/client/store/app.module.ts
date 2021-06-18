@@ -127,9 +127,6 @@ export default {
             const app = state.applicationInstances.find(x => x.id === id)
             app.event.maximize = caller
         },
-        updateUser(state, user) {
-            state.current = user
-        },
         updateAppList(state, apps) {
             state.applications = apps
         },

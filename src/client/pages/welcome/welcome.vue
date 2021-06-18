@@ -90,7 +90,7 @@ async function onSubmit() {
         .then(registerAdmin)
         .then(({ registerUser: user }) => {
             store.commit('app/initialize', true)
-            store.commit('user/updateUser', user)
+            store.dispatch('user/login', user)
             router.push('/')
         })
         .catch(() => {

@@ -29,13 +29,18 @@ export default {
     mutations: {
         updateUser(state, user) {
             state.current = user
-            store.commit('app/updateDesktopApps', user.desktop)
         },
         updateCode(state, code) {
             state.code = code
         },
         logout(state) {
             state.current = {}
+        }
+    },
+    actions: {
+        login({ commit }, user) {
+            commit('updateUser', user)
+            commit('app/updateDesktopApps', user.desktop, { root: true })
         }
     }
 }
