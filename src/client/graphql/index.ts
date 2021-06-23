@@ -4,7 +4,14 @@ import { Chain } from './zeus/index.js'
 
 export const useGraphql = () => {
     const host = import.meta.env.SSR ? '' : globalThis.location.origin
-    return Chain(`${host}/graphql`)
+    return Chain(`${host}/graphql`, {
+        // TODO AUTH
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization:
+                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwic3ViIjoxLCJpYXQiOjE2MjQ0NDAzOTUsImV4cCI6MTYyNDQ0MDQ1NX0._0JSctyoj1b9HbvRtEqbsmTYv-7xTwAWL99ZmiOEoRA'
+        }
+    })
 }
 
 const endpoint = '/graphql'

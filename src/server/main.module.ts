@@ -4,13 +4,14 @@ import { ProxyService } from './services/proxy.service'
 import { ApiController } from './controllers/api.controller'
 import { LoggerModule } from './logger/logger.module'
 import { DatabaseModule } from './database/database.module'
-import { TypeGraphQLModule } from 'typegraphql-nestjs'
+// import { TypeGraphQLModule } from 'typegraphql-nestjs'
 import { join } from 'path'
 import { AppModule } from './modules/app/app.module'
 import { UserModule } from './modules/user/user.module'
 import { AuthModule } from './auth/auth.module'
 import { APP_GUARD } from '@nestjs/core'
 import { JwtAuthGuard } from './auth/guards/jwt.guard'
+import { GraphQLModule } from '@nestjs/graphql'
 
 // 配置文件路径
 const configFilePath = join(__dirname, '..', '..', 'config.yml')
@@ -23,9 +24,8 @@ const MODULES = [AppModule, UserModule]
         CacheModule.register(),
         LoggerModule,
         ConfigModule.forRoot(configFilePath),
-        TypeGraphQLModule.forRoot({
-            emitSchemaFile: true,
-            dateScalarMode: 'timestamp',
+        GraphQLModule.forRoot({
+            autoSchemaFile: true,
             debug: true,
             playground: true
         }),

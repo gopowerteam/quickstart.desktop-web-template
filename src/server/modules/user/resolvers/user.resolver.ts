@@ -1,22 +1,21 @@
+import { UnauthorizedException } from '@nestjs/common'
+import {
+    Args,
+    ArgsType,
+    Field,
+    InputType,
+    Mutation,
+    Parent,
+    Query,
+    ResolveField,
+    Resolver
+} from '@nestjs/graphql'
+import { AuthService } from '@server/auth/services/auth.service'
 import { UserRole } from '@server/constants/enum.config'
+import { Public } from '@server/decorators/public.decorator'
 import { App } from '@server/modules/app/entities/app.entity'
 import { User } from '@server/modules/user/entities/user.entity'
 import { UserService } from '@server/modules/user/services/user.service'
-import {
-    Args,
-    Arg,
-    ArgsType,
-    Field,
-    Mutation,
-    Query,
-    Resolver,
-    FieldResolver,
-    Root,
-    ResolverInterface,
-    InputType,
-    Authorized,
-    Ctx
-} from 'type-graphql'
 
 @ArgsType()
 class LoginByPasswordArgs {
@@ -40,19 +39,30 @@ class RegisterUserInput implements Partial<User> {
 }
 
 @Resolver(of => User)
-export class UserResolver implements ResolverInterface<User> {
-    constructor(private userService: UserService) {}
+export class UserResolver {
+    constructor(
+        private userService: UserService,
+        private authService: AuthService
+    ) {}
 
     /**
      * 通过密码登录
      * @param param0
      * @returns
      */
+    @Public()
     @Query(returns => User)
     async loginByPassword(@Args() { username, password }: LoginByPasswordArgs) {
-        return this.userService.loginByPassword('admin', '123456')
+        const user = await this.authService.validateUser(username, password)
+
+        if (user) {
+            return user
+        } else {
+            throw new UnauthorizedException()
+        }
     }
 
+    @Public()
     @Query(returns => [User])
     async getUserList() {
         return this.userService.getUserList()
@@ -63,12 +73,12 @@ export class UserResolver implements ResolverInterface<User> {
      * @returns
      */
     @Mutation(returns => User)
-    async registerUser(@Arg('user') user: RegisterUserInput) {
+    async registerUser(@Args('user') user: RegisterUserInput) {
         return this.userService.registerUser(user)
     }
 
-    @FieldResolver(returns => [App])
-    async desktop(@Root() user: User) {
+    @ResolveField(returns => [App])
+    async desktop(@Parent() user: User) {
         return user.desktop
     }
 }

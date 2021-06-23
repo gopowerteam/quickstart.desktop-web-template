@@ -1,4 +1,4 @@
-import { Field, ObjectType } from 'type-graphql'
+import { Field, ObjectType } from '@nestjs/graphql'
 import {
     BeforeInsert,
     BeforeUpdate,
@@ -6,7 +6,20 @@ import {
     PrimaryGeneratedColumn
 } from 'typeorm'
 
-export class EntityClass {}
+export class EntityClass {
+    toPlain() {
+        return Object.assign({}, this)
+    }
+
+    static toPlain(data) {
+        if (data instanceof Array) {
+            return data.map(x => Object.assign({}, x))
+        } else {
+            return Object.assign({}, data)
+        }
+    }
+}
+
 export type Constructor<T = EntityClass> = new (...args: any[]) => T
 
 /**

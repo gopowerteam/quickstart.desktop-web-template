@@ -1,7 +1,8 @@
-import { ExecutionContext, Injectable } from '@nestjs/common'
+import { ContextType, ExecutionContext, Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
+import { GqlExecutionContext } from '@nestjs/graphql'
 import { AuthGuard } from '@nestjs/passport'
-import { IS_PUBLIC_KEY } from '@server/constants/decorator.config'
+import { IS_PUBLIC_KEY } from '@server/decorators/public.decorator'
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -18,5 +19,12 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
         if (isPublic) return true
 
         return super.canActivate(context)
+    }
+
+    getRequest(context: ExecutionContext) {
+        if (context.getType<ContextType | 'graphql'>() === 'graphql') {
+            return GqlExecutionContext.create(context).getContext().req
+        }
+        return context.switchToHttp().getRequest()
     }
 }

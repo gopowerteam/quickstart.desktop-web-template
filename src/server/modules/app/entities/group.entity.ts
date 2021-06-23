@@ -1,8 +1,8 @@
 import { pipe } from 'ramda'
-import { Field, ObjectType } from 'type-graphql'
 import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm'
 import { App } from './app.entity'
 import { EntityClass, EntityWithID } from '@server/entities/index'
+import { Field, ObjectType } from '@nestjs/graphql'
 
 @Entity('group')
 @ObjectType()

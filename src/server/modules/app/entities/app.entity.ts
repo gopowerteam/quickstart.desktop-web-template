@@ -5,8 +5,8 @@ import {
     EntityWithDate,
     EntityWithEnable
 } from '@server/entities/index'
-import { Field, ObjectType } from 'type-graphql'
 import { pipe } from 'ramda'
+import { Field, ObjectType } from '@nestjs/graphql'
 
 @Entity('app')
 @ObjectType()

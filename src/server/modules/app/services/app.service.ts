@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { EntityClass } from '@server/entities'
 import { App } from '@server/modules/app/entities/app.entity'
-import { Repository } from 'typeorm'
+import { Repository, UsingJoinColumnIsNotAllowedError } from 'typeorm'
 @Injectable()
 export class AppService {
     constructor(
@@ -26,7 +27,7 @@ export class AppService {
             .createQueryBuilder()
             .insert()
             .into(App)
-            .values(apps)
+            .values(EntityClass.toPlain(apps))
             .onConflict(`("name") DO NOTHING`)
             .execute()
 

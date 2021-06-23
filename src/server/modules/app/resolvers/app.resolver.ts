@@ -1,17 +1,17 @@
+import {
+    Args,
+    Field,
+    InputType,
+    Mutation,
+    Parent,
+    Query,
+    ResolveField,
+    Resolver
+} from '@nestjs/graphql'
+import { Public } from '@server/decorators/public.decorator'
 import { App } from '@server/modules/app/entities/app.entity'
 import { Group } from '@server/modules/app/entities/group.entity'
 import { AppService } from '@server/modules/app/services/app.service'
-import {
-    Arg,
-    Field,
-    FieldResolver,
-    InputType,
-    Mutation,
-    Query,
-    Resolver,
-    ResolverInterface,
-    Root
-} from 'type-graphql'
 
 @InputType()
 class AppInput implements Partial<App> {
@@ -26,7 +26,7 @@ class AppInput implements Partial<App> {
 }
 
 @Resolver(of => App)
-export class AppResolver implements ResolverInterface<App> {
+export class AppResolver {
     constructor(private readonly appService: AppService) {}
 
     /**
@@ -44,23 +44,26 @@ export class AppResolver implements ResolverInterface<App> {
      * @param apps
      * @returns
      */
+    @Public()
     @Mutation(returns => [App])
-    async syncAppList(@Arg('apps', () => [AppInput]) apps: AppInput[]) {
+    async syncAppList(
+        @Args('apps', { type: () => [AppInput] }) apps: AppInput[]
+    ) {
         return await this.appService.syncAppList(apps)
     }
 
     @Mutation(returns => App)
-    async AddUserDesktopApp(@Arg('app') app: AppInput) {
+    async AddUserDesktopApp(@Args('app') app: AppInput) {
         return await this.appService.addUserDesktopApp(app)
     }
 
     @Mutation(returns => App)
-    async RemoveUserDesktopApp(@Arg('app') appName: string) {
+    async RemoveUserDesktopApp(@Args('app') appName: string) {
         return await this.appService.removeUserDesktopApp(appName)
     }
 
-    @FieldResolver(returns => Group)
-    async group(@Root() app: App) {
+    @ResolveField(returns => Group)
+    async group(@Parent() app: App) {
         return app.group
     }
 

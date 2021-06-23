@@ -10,7 +10,7 @@ import {
 import { JwtAuthGuard } from '@server/auth/guards/jwt.guard'
 import { LocalAuthGuard } from '@server/auth/guards/local.guard'
 import { AuthService } from '@server/auth/services/auth.service'
-import { Public } from '@server/constants/decorator.config'
+import { Public } from '@server/decorators/public.decorator'
 import { ProxyService } from '../services/proxy.service'
 
 @Controller()
@@ -31,13 +31,13 @@ export class ApiController {
     //     this.proxyService.forward(req, res)
     // }
 
+    @Public()
     @UseGuards(LocalAuthGuard)
     @Post('api/login')
     async login(@Request() req) {
         return this.authService.login(req.user)
     }
 
-    @UseGuards(JwtAuthGuard)
     @Get('api/user')
     getProfile(@Request() req) {
         return req.user

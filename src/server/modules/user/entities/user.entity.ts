@@ -7,8 +7,8 @@ import {
     EntityWithID
 } from '@server/entities/index'
 import { App } from '@server/modules/app/entities/app.entity'
-import { Field, ObjectType, registerEnumType } from 'type-graphql'
 import { pipe } from 'ramda'
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql'
 
 registerEnumType(UserRole, {
     name: 'UserRole'
