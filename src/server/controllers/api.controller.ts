@@ -5,13 +5,12 @@ import {
     Post,
     UseGuards,
     Request,
-    Body,
     Param
 } from '@nestjs/common'
 import { JwtAuthGuard } from '@server/auth/guards/jwt.guard'
-// import { JwtAuthGuard } from '@server/auth/guards/jwt.guard'
 import { LocalAuthGuard } from '@server/auth/guards/local.guard'
 import { AuthService } from '@server/auth/services/auth.service'
+import { Public } from '@server/constants/decorator.config'
 import { ProxyService } from '../services/proxy.service'
 
 @Controller()
@@ -42,5 +41,13 @@ export class ApiController {
     @Get('api/user')
     getProfile(@Request() req) {
         return req.user
+    }
+
+    @Public()
+    @Get('api/test')
+    getTest() {
+        return {
+            right: true
+        }
     }
 }

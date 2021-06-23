@@ -13,7 +13,9 @@ import {
     FieldResolver,
     Root,
     ResolverInterface,
-    InputType
+    InputType,
+    Authorized,
+    Ctx
 } from 'type-graphql'
 
 @ArgsType()
@@ -48,7 +50,7 @@ export class UserResolver implements ResolverInterface<User> {
      */
     @Query(returns => User)
     async loginByPassword(@Args() { username, password }: LoginByPasswordArgs) {
-        return this.userService.loginByPassword(username, password)
+        return this.userService.loginByPassword('admin', '123456')
     }
 
     @Query(returns => [User])

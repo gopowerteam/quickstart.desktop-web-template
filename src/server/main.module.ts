@@ -1,5 +1,4 @@
-import { CacheModule, Module } from '@nestjs/common'
-import { JwtModule } from '@nestjs/jwt'
+import { CacheModule, ContextType, Module } from '@nestjs/common'
 import { ConfigModule } from './config/config.module'
 import { ProxyService } from './services/proxy.service'
 import { ApiController } from './controllers/api.controller'
@@ -10,6 +9,8 @@ import { join } from 'path'
 import { AppModule } from './modules/app/app.module'
 import { UserModule } from './modules/user/user.module'
 import { AuthModule } from './auth/auth.module'
+import { APP_GUARD } from '@nestjs/core'
+import { JwtAuthGuard } from './auth/guards/jwt.guard'
 
 // 配置文件路径
 const configFilePath = join(__dirname, '..', '..', 'config.yml')
@@ -33,6 +34,12 @@ const MODULES = [AppModule, UserModule]
         ...MODULES
     ],
     controllers: [ApiController],
-    providers: [ProxyService]
+    providers: [
+        {
+            provide: APP_GUARD,
+            useClass: JwtAuthGuard
+        },
+        ProxyService
+    ]
 })
 export class MainModule {}
