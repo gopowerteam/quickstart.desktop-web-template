@@ -67,8 +67,6 @@ function getCurrentRole(id) {
 }
 
 function onUpdateRole() {
-    console.log(currentRole)
-    console.log(currentApps)
     request(applicationRequest.updateRole, {
         roleid: currentRole.id,
         apps: currentApps

@@ -1,18 +1,46 @@
-import { All, Controller, Req, Res } from '@nestjs/common'
-import { Request, Response } from 'express'
+import {
+    All,
+    Controller,
+    Get,
+    Post,
+    UseGuards,
+    Request,
+    Body,
+    Param
+} from '@nestjs/common'
+import { JwtAuthGuard } from '@server/auth/guards/jwt.guard'
+// import { JwtAuthGuard } from '@server/auth/guards/jwt.guard'
+import { LocalAuthGuard } from '@server/auth/guards/local.guard'
+import { AuthService } from '@server/auth/services/auth.service'
 import { ProxyService } from '../services/proxy.service'
 
-@Controller('/api')
+@Controller()
 export class ApiController {
-    constructor(private readonly proxyService: ProxyService) {}
+    constructor(
+        private readonly proxyService: ProxyService,
+        private readonly authService: AuthService
+    ) {}
 
     /**
      * 代理服務
      * @param req
      * @param res
-     */
-    @All()
-    doProxy(@Req() req: Request, @Res() res: Response) {
-        this.proxyService.forward(req, res)
+    //  */
+    // @All()
+    // @UseGuards(AuthGuard('local'))
+    // doProxy(@Req() req: Request, @Res() res: Response) {
+    //     this.proxyService.forward(req, res)
+    // }
+
+    @UseGuards(LocalAuthGuard)
+    @Post('api/login')
+    async login(@Request() req) {
+        return this.authService.login(req.user)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('api/user')
+    getProfile(@Request() req) {
+        return req.user
     }
 }

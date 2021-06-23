@@ -15,7 +15,7 @@ async function createApp() {
     const express = Express()
     const { app: server, registerApp } = await createServer(express)
     const app = NestFactory.create(MainModule, new ExpressAdapter(server), {
-        bodyParser: false
+        bodyParser: true
     }).then(Application.initialize)
 
     registerApp(app)

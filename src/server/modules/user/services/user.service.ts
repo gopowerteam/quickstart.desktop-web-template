@@ -9,6 +9,15 @@ export class UserService {
         @InjectRepository(User) private userRepository: Repository<User>
     ) {}
 
+    async findOne(username: string) {
+        return this.userRepository.findOne(
+            { username },
+            {
+                relations: ['desktop']
+            }
+        )
+    }
+
     /**
      * 密码登录
      * @param username
