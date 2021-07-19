@@ -26,8 +26,8 @@ const MODULES = [AppModule, UserModule]
         ConfigModule.forRoot(configFilePath),
         GraphQLModule.forRoot({
             autoSchemaFile: true,
-            debug: true,
-            playground: true
+            debug: true
+            // playground: true
         }),
         DatabaseModule.forRoot(),
         AuthModule,
