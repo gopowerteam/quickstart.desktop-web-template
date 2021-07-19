@@ -86,7 +86,7 @@ onMounted(() => {
 </script>
 
 <style lang="stylus" scoped>
-@import '../../../client/assets/styles/varibles.styl'
+@import '../../../assets/styles/varibles.styl'
 
 .role-item
     padding 10px

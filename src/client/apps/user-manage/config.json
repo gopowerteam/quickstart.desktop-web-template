@@ -1,0 +1,7 @@
+{
+    "name": "user-manage",
+    "icon": "/icons/user.png",
+    "title": "用户管理",
+    "maximize": true,
+    "admin": true
+}

@@ -1,6 +1,5 @@
 import { ApplicationList } from '@/config/application.config'
 import { useGraphql } from '@/graphql'
-import { applicationRequest } from '@/graphql/application.graph'
 
 export interface IState {
     ready: boolean

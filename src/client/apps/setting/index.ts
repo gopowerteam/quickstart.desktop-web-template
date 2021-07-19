@@ -1,3 +1,4 @@
-import Setting from './pages/setting.vue'
+import config from './config.json'
+import { appOption } from '@/apps'
 
-export default Setting
+export default appOption(() => import('./pages/setting.vue'), config)

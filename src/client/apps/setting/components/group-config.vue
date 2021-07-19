@@ -42,6 +42,7 @@ import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex'
 
 const store = useStore(IStore)
+
 const request = useRequest()
 
 const currentGroup = ref()

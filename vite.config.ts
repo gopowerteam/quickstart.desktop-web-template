@@ -11,9 +11,22 @@ export default defineConfig({
         }
     },
     resolve: {
-        alias: {
-            '@': resolve(__dirname, './src/client/'),
-            '@apps': resolve(__dirname, './src/client/apps/')
+        alias: [
+            {
+                find: '@apps',
+                replacement: resolve(__dirname, './src/client/apps/')
+            },
+            {
+                find: '@',
+                replacement: resolve(__dirname, './src/client/')
+            }
+        ]
+    },
+    css: {
+        preprocessorOptions: {
+            // stylus: {
+            //     additionalData: `$injectedColor: orange;`
+            // }
         }
     },
     plugins: [

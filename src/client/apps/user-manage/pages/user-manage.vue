@@ -33,7 +33,7 @@ page-container(full)
 import { PageService } from '@/bootstrap/http/page.service'
 import { convertToTree } from '@/shared/utils/common.util'
 import { onMounted, reactive, ref } from 'vue'
-import ModalTest from './modal-test.vue'
+import ModalTest from '../components/modal-test.vue'
 import { useModal } from '@gopowerteam/vue-modal'
 const modal = useModal()
 const dataModel = reactive({
@@ -86,7 +86,7 @@ function onSubmit(data) {
 }
 
 function onOpenModal() {
-    console.log(modal)
+    console.log(ModalTest)
     // modal.open({
     //     component: ModalTest
     // })

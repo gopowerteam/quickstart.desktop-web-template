@@ -1,0 +1,7 @@
+{
+    "name": "desktop-manage",
+    "icon": "/icons/user.png",
+    "title": "桌面管理",
+    "maximize": true,
+    "admin": true
+}

@@ -9,7 +9,7 @@ const navigate = inject('navigate') as any
 
 const onEnter = () => {
     navigate.push({
-        component: () => import('./pages/test-page-1.vue')
+        component: () => import('./test-page-1.vue')
     })
 }
 </script>
