@@ -22,8 +22,8 @@ export const registerGlobalComponents = (app: App) => {
     app.component('ColumnContainer', ColumnContainer)
     app.component('ColumnItem', ColumnItem)
 
-    app.component('close-svg', CloseSvg as any)
-    app.component('check-svg', CheckSvg as any)
+    app.component('CloseSvg', CloseSvg as any)
+    app.component('CheckSvg', CheckSvg as any)
 }
 
 declare global {
