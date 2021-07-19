@@ -16,5 +16,13 @@ export default defineConfig({
             '@apps': resolve(__dirname, './src/client/apps/')
         }
     },
-    plugins: [vue(), vueJSX(), svgLoader()]
+    plugins: [
+        vue({
+            script: {
+                refSugar: true
+            }
+        }),
+        vueJSX(),
+        svgLoader()
+    ]
 })

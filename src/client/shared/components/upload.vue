@@ -13,8 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineEmit, defineProps } from '@vue/runtime-core'
-
 const props = defineProps({
     multiple: {
         type: Boolean,
@@ -26,7 +24,7 @@ const props = defineProps({
     }
 })
 
-const emit = defineEmit({
+const emit = defineEmits({
     upload: files => files
 })
 

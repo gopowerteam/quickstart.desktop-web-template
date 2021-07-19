@@ -23,10 +23,8 @@ import {
     FullscreenExitOutlined
 } from '@ant-design/icons-vue'
 import { useStore } from 'vuex'
-
 import { IStore } from '@/store'
-import { onMounted } from '@vue/runtime-core'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const store = useStore(IStore)
 const fullscreenElelment = ref()

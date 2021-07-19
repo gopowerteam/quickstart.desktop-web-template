@@ -28,7 +28,7 @@ export class AppService {
             .insert()
             .into(App)
             .values(EntityClass.toPlain(apps))
-            .onConflict(`("name") DO NOTHING`)
+            .onConflict('("name") DO NOTHING')
             .execute()
 
         return await this.getAppList()

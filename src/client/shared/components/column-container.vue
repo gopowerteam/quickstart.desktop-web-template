@@ -1,14 +1,12 @@
 <template lang="pug">
 .column-container.flex.flex-row.relative(
-    style='width: 100%; height: 100%'
+    :style='{ width: "100%", height: "100%" }'
     :class='`space-x-${gap}`'
 )
     slot
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
-
 defineProps({
     full: {
         type: Boolean,

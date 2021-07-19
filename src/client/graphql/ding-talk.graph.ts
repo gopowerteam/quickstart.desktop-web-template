@@ -51,7 +51,7 @@ const userFragment = gql`
 
 // 获取用户列表
 export const UserAuthByQrCode = gql`
-    query($code: String!) {
+    query ($code: String!) {
         UserAuthByQrCode(code: $code) {
             ...user
         }
@@ -61,7 +61,7 @@ export const UserAuthByQrCode = gql`
 `
 
 export const GetUserInfoByCode = gql`
-    query($code: String!) {
+    query ($code: String!) {
         GetUserInfoByCode(code: $code) {
             ...user
         }

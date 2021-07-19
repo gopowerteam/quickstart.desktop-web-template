@@ -22,8 +22,7 @@ export class Logger implements LoggerService {
     }
 
     private get logger() {
-        if (!this._logger)
-            this._logger = log4js.getLogger(this._category)
+        if (!this._logger) this._logger = log4js.getLogger(this._category)
 
         return this._logger
     }

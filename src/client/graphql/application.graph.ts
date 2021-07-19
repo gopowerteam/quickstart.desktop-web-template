@@ -40,7 +40,7 @@ export const applicationRequest = {
         ${fragments.admin}
     `,
     addAdminList: gql`
-        mutation($users: [AdminInput]!) {
+        mutation ($users: [AdminInput]!) {
             AddAdminList(users: $users) {
                 ...admin
             }
@@ -58,7 +58,7 @@ export const applicationRequest = {
         ${fragments.app}
     `,
     syncAppList: gql`
-        mutation($apps: [AppInput]!) {
+        mutation ($apps: [AppInput]!) {
             SyncAppList(apps: $apps) {
                 ...app
             }
@@ -76,7 +76,7 @@ export const applicationRequest = {
         ${fragments.group}
     `,
     addGroup: gql`
-        mutation($group: GroupInput) {
+        mutation ($group: GroupInput) {
             AddGroup(group: $group) {
                 ...group
             }
@@ -85,7 +85,7 @@ export const applicationRequest = {
         ${fragments.group}
     `,
     updateApp: gql`
-        mutation($app: AppInput) {
+        mutation ($app: AppInput) {
             UpdateApp(app: $app) {
                 ...app
             }
@@ -94,7 +94,7 @@ export const applicationRequest = {
         ${fragments.app}
     `,
     updateGroup: gql`
-        mutation($group: GroupInput) {
+        mutation ($group: GroupInput) {
             UpdateGroup(group: $group) {
                 ...group
             }
@@ -103,14 +103,14 @@ export const applicationRequest = {
         ${fragments.group}
     `,
     deleteGroup: gql`
-        mutation($id: String) {
+        mutation ($id: String) {
             DeleteGroup(id: $id) {
                 _id
             }
         }
     `,
     getUserDesktopApps: gql`
-        query($userid: String) {
+        query ($userid: String) {
             GetUserDesktopApps(userid: $userid) {
                 userid
                 apps
@@ -118,7 +118,7 @@ export const applicationRequest = {
         }
     `,
     addUserDesktopApp: gql`
-        mutation($userid: String, $app: String) {
+        mutation ($userid: String, $app: String) {
             AddUserDesktopApp(userid: $userid, app: $app) {
                 userid
                 apps
@@ -134,19 +134,19 @@ export const applicationRequest = {
         }
     `,
     getRoleById: gql`
-        query($roleid: Int) {
+        query ($roleid: Int) {
             GetRoleById(roleid: $roleid) {
-                roleid 
-                apps
-            }
-        }
-    `,
-    updateRole: gql`
-        mutation ($roleid:Int,$apps:[String]){
-            UpdateRole(roleid:$roleid,apps:$apps){
                 roleid
                 apps
             }
         }
     `,
+    updateRole: gql`
+        mutation ($roleid: Int, $apps: [String]) {
+            UpdateRole(roleid: $roleid, apps: $apps) {
+                roleid
+                apps
+            }
+        }
+    `
 }

@@ -22,8 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, inject } from '@vue/runtime-core'
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 
 const props = defineProps({
     full: {
@@ -31,14 +30,16 @@ const props = defineProps({
         default: true
     },
     title: {
-        type: String
+        type: String,
+        default: ''
     },
     back: {
         type: Boolean,
         default: true
     },
     beforeBack: {
-        type: Function
+        type: Function,
+        default: null
     }
 })
 

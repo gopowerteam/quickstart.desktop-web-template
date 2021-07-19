@@ -1,7 +1,7 @@
 <script lang="tsx">
 import { defineComponent, ref, toRaw } from 'vue'
 import { UpOutlined, DownOutlined } from '@ant-design/icons-vue'
-import { useForm } from '@ant-design-vue/use'
+import { Form } from 'ant-design-vue'
 
 export default defineComponent({
     components: {
@@ -34,7 +34,7 @@ export default defineComponent({
     setup(props, ctx) {
         let form: any = ref()
 
-        const { resetFields, validate, validateInfos } = useForm(
+        const { resetFields, validate, validateInfos } = Form.use(
             props.dataModel,
             props.rules
         )

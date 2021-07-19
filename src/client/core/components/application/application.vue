@@ -12,14 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-    computed,
-    inject,
-    onMounted,
-    provide,
-    reactive,
-    defineProps
-} from 'vue'
+import { computed, inject, onMounted, provide, reactive } from 'vue'
 import ApplicationHeader from './components/application-header.vue'
 import ApplicationBody from './components/application-body.vue'
 import ApplicationBorder from './components/application-border.vue'
@@ -146,9 +139,7 @@ const style = computed(() => {
     } as any
 
     if (props.app.minimize) {
-        setTimeout(() => {
-            target.display = 'none'
-        }, 300)
+        target.display = 'none'
     }
 
     return target

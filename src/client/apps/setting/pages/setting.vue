@@ -10,7 +10,7 @@ page-container
 </template>
 
 <script setup lang="ts">
-import { inject, provide } from '@vue/runtime-core'
+import { inject, provide } from 'vue'
 import ApplicationConfig from '../components/application-config.vue'
 import GroupConfig from '../components/group-config.vue'
 import RoleConfig from '../components/role-config.vue'

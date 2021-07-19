@@ -78,7 +78,6 @@ import { inject, onMounted, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 import { IStore } from '@/store'
 import { useRequest } from '@/graphql'
-import { defineProps } from '@vue/runtime-core'
 import { TreeSelect } from 'ant-design-vue'
 
 const request = useRequest()

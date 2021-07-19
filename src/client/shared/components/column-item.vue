@@ -4,7 +4,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps } from '@vue/runtime-core'
+import { computed } from 'vue'
 
 const props = defineProps({
     overflow: {
@@ -12,10 +12,12 @@ const props = defineProps({
         default: false
     },
     width: {
-        type: String
+        type: String,
+        default: undefined
     },
     flex: {
-        type: Number
+        type: Number,
+        default: undefined
     },
     scrollable: {
         type: Boolean,

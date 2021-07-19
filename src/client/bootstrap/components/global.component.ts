@@ -8,7 +8,6 @@ import LabelItem from '@/shared/components/label-item.vue'
 import ColumnContainer from '@/shared/components/column-container.vue'
 import ColumnItem from '@/shared/components/column-item.vue'
 import Upload from '@/shared/components/upload.vue'
-import FormulaTable from '@/components/formula-table.vue'
 import CloseSvg from '@/assets/icons/svg/close.svg'
 import CheckSvg from '@/assets/icons/svg/check.svg'
 
@@ -20,7 +19,6 @@ export const registerGlobalComponents = (app: App) => {
     app.component('LabelContainer', LabelContainer)
     app.component('LabelItem', LabelItem)
     app.component('Upload', Upload)
-    app.component('FormulaTable', FormulaTable)
     app.component('ColumnContainer', ColumnContainer)
     app.component('ColumnItem', ColumnItem)
 
@@ -36,7 +34,6 @@ declare global {
         PageContainer: typeof PageContainer
         LabelContainer: typeof LabelContainer
         LabelItem: typeof LabelItem
-        FormulaTable: typeof FormulaTable
         Upload: typeof Upload
     }
 }

@@ -26,24 +26,22 @@
         )
 </template>
 <script setup lang="ts">
-import { defineEmit, defineProps, getCurrentInstance } from 'vue'
-
-const ctx = getCurrentInstance()
-
 const props = defineProps({
     dataSource: {
         type: Object,
-        require: true
+        required: true
     },
     page: {
-        type: Object
+        type: Object,
+        default: null
     },
     rowKey: {
-        type: String
+        type: String,
+        required: true
     }
 })
 
-const emit = defineEmit({
+const emit = defineEmits({
     pageChange: e => e
 })
 </script>

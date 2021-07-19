@@ -6,11 +6,10 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from '@vue/runtime-core'
-
 defineProps({
     title: {
-        type: String
+        type: String,
+        default: ''
     },
     column: {
         type: Number,

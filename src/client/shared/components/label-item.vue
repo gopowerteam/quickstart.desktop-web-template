@@ -10,17 +10,17 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted } from '@vue/runtime-core'
-import { computed, getCurrentInstance, ref } from 'vue'
+import { onMounted, computed, getCurrentInstance, ref } from 'vue'
 
 const props = defineProps({
     label: {
         type: String,
-        require: true
+        required: true
     },
     value: {
         type: String,
-        require: true
+        required: false,
+        default: undefined
     },
     span: {
         type: Number,

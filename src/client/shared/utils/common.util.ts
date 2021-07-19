@@ -13,9 +13,7 @@ export function convertToTree(
     }: { key: string; parentKey: string; defaultParent?: any }
 ) {
     // 获取根节点
-    const roots = data.filter(
-        x => x[key] === defaultParent
-    )
+    const roots = data.filter(x => x[key] === defaultParent)
     const action = item => {
         // 获取子节点
         const children = data.filter(x => {
