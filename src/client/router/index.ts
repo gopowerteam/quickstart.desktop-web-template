@@ -1,12 +1,7 @@
-import {
-    createMemoryHistory,
-    createRouter,
-    createWebHistory,
-    RouteRecordRaw
-} from 'vue-router'
+import { createMemoryHistory, createRouter, createWebHistory } from 'vue-router'
 
 import store from '@/store'
-import launch from '@/bootstrap/boots/launch.boot'
+import { globalLaunch } from '@/bootstrap/boots/launch.boot'
 import { routes } from './routes'
 
 // 验证用户是否成功登录
@@ -19,7 +14,7 @@ const canUserAccess = () => {
 const canReadyAccess = async () => {
     const ready = !!store.state.app.ready
     if (!ready) {
-        await launch().then(() => {
+        await globalLaunch().then(() => {
             if (canUserAccess()) {
                 router.push('/workspace')
             }

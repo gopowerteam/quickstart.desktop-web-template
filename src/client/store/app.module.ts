@@ -1,5 +1,4 @@
 import { ApplicationList } from '@/config/application.config'
-import { useGraphql } from '@/graphql'
 
 export interface IState {
     ready: boolean
@@ -10,8 +9,6 @@ export interface IState {
     userApplications: any[]
     drawerVisible: boolean
 }
-
-const gql = useGraphql()
 
 export default {
     namespaced: true,

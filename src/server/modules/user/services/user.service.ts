@@ -9,13 +9,15 @@ export class UserService {
         @InjectRepository(User) private userRepository: Repository<User>
     ) {}
 
-    async findOne(username: string) {
-        return this.userRepository.findOne(
-            { username },
-            {
-                relations: ['desktop']
-            }
-        )
+    /**
+     * 查询用户
+     * @param username
+     * @returns
+     */
+    async findOne(conditions: { [key: string]: any }) {
+        return this.userRepository.findOne(conditions, {
+            relations: ['desktop']
+        })
     }
 
     /**
@@ -34,12 +36,12 @@ export class UserService {
     }
 
     /**
-     * 注册用户
+     * 创建用户
      * @param username
      * @param password
      * @returns
      */
-    async registerUser(user: Partial<User>) {
+    async createUser(user: Partial<User>) {
         const userEntity = this.userRepository.create({
             username: user.username,
             password: user.password,
@@ -50,6 +52,9 @@ export class UserService {
         return await this.userRepository.save(userEntity)
     }
 
+    /**
+     * 获取用户桌面应用
+     */
     async getUserDesktop(userId: number) {
         const user = await this.userRepository.findOne(userId, {
             select: ['desktop'],
@@ -59,14 +64,9 @@ export class UserService {
         return user?.desktop
     }
 
-    async getUser(userId) {
-        const user = await this.userRepository.findOne(userId, {
-            select: ['desktop'],
-            relations: ['desktop']
-        })
-        return user
-    }
-
+    /**
+     * 获取所有用户
+     */
     async getUserList() {
         return await this.userRepository.find()
     }

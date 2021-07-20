@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 export const AllTypesProps = {
+	UserRole: "enum",
 	Query:{
 		loginByPassword:{
 			username:{
@@ -17,8 +18,15 @@ export const AllTypesProps = {
 			}
 		}
 	},
-	UserRole: "enum",
 	Mutation:{
+		setAdministrator:{
+			user:{
+				type:"UserInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
 		syncAppList:{
 			apps:{
 				type:"AppInput",
@@ -27,13 +35,41 @@ export const AllTypesProps = {
 				required:true
 			}
 		},
-		registerUser:{
-			user:{
-				type:"RegisterUserInput",
+		AddUserDesktopApp:{
+			app:{
+				type:"AppInput",
 				array:false,
 				arrayRequired:false,
 				required:true
 			}
+		},
+		RemoveUserDesktopApp:{
+			app:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		}
+	},
+	UserInput:{
+		username:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		password:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		role:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:false
 		}
 	},
 	AppInput:{
@@ -55,53 +91,46 @@ export const AllTypesProps = {
 			arrayRequired:false,
 			required:true
 		}
-	},
-	RegisterUserInput:{
-		username:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		password:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		role:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:false
-		}
 	}
 }
 
 export const ReturnTypes = {
-	Query:{
-		getAppList:"App",
-		loginByPassword:"User",
-		getUserList:"User"
+	Group:{
+		id:"Float",
+		name:"String"
 	},
 	App:{
+		updatedAt:"Float",
+		createdAt:"Float",
+		enable:"Boolean",
 		name:"String",
 		title:"String",
 		icon:"String",
 		group:"Group"
 	},
-	Group:{
-		name:"String"
-	},
 	User:{
+		id:"Float",
+		enable:"Boolean",
+		updatedAt:"Float",
+		createdAt:"Float",
 		username:"String",
 		password:"String",
 		nickname:"String",
 		role:"UserRole",
 		desktop:"App"
 	},
+	ResultString:{
+		data:"String"
+	},
+	Query:{
+		loginByPassword:"ResultString",
+		getUserByToken:"User",
+		getAppList:"App"
+	},
 	Mutation:{
+		setAdministrator:"User",
 		syncAppList:"App",
-		registerUser:"User"
+		AddUserDesktopApp:"App",
+		RemoveUserDesktopApp:"App"
 	}
 }

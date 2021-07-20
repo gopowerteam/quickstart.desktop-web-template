@@ -1,10 +1,11 @@
-import { UnauthorizedException } from '@nestjs/common'
+import { HttpException, UnauthorizedException } from '@nestjs/common'
 import {
     Args,
     ArgsType,
     Field,
     InputType,
     Mutation,
+    ObjectType,
     Parent,
     Query,
     ResolveField,
@@ -12,7 +13,9 @@ import {
 } from '@nestjs/graphql'
 import { AuthService } from '@server/auth/services/auth.service'
 import { UserRole } from '@server/constants/enum.config'
+import { CurrentUser } from '@server/decorators/current-user.decorator'
 import { Public } from '@server/decorators/public.decorator'
+import { ResultString } from '@server/graphql/result'
 import { App } from '@server/modules/app/entities/app.entity'
 import { User } from '@server/modules/user/entities/user.entity'
 import { UserService } from '@server/modules/user/services/user.service'
@@ -27,7 +30,7 @@ class LoginByPasswordArgs {
 }
 
 @InputType()
-class RegisterUserInput implements Partial<User> {
+class UserInput implements Partial<User> {
     @Field()
     username: string
 
@@ -51,32 +54,50 @@ export class UserResolver {
      * @returns
      */
     @Public()
-    @Query(returns => User)
+    @Query(returns => ResultString)
     async loginByPassword(@Args() { username, password }: LoginByPasswordArgs) {
         const user = await this.authService.validateUser(username, password)
 
         if (user) {
-            return user
+            const { access_token } = await this.authService.login({
+                username: user.username,
+                id: user.id
+            })
+
+            return {
+                data: access_token
+            }
         } else {
             throw new UnauthorizedException()
         }
     }
 
-    @Public()
-    @Query(returns => [User])
-    async getUserList() {
-        return this.userService.getUserList()
-    }
-    /**
-     * 注册创建用户
-     * @param param0
-     * @returns
-     */
-    @Mutation(returns => User)
-    async registerUser(@Args('user') user: RegisterUserInput) {
-        return this.userService.registerUser(user)
+    @Query(returns => User)
+    public getUserByToken(@CurrentUser() user: User) {
+        console.log(user)
+        return user
     }
 
+    /**
+     * 设置管理员
+     */
+    @Public()
+    @Mutation(returns => User)
+    async setAdministrator(@Args('user') user: UserInput) {
+        const admin = await this.userService.findOne({ role: UserRole.ADMIN })
+
+        if (!admin) {
+            return this.userService.createUser(user)
+        } else {
+            throw new HttpException('管理员已存在', 400)
+        }
+    }
+
+    /**
+     * 获取用户桌面应用
+     * @param user
+     * @returns
+     */
     @ResolveField(returns => [App])
     async desktop(@Parent() user: User) {
         return user.desktop
