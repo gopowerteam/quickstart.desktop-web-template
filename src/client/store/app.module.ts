@@ -6,7 +6,6 @@ export interface IState {
     applications: any[]
     applicationInstances: any[]
     desktopApps: any[]
-    userApplications: any[]
     drawerVisible: boolean
 }
 
@@ -18,7 +17,6 @@ export default {
         applications: [],
         applicationInstances: [],
         desktopApps: [],
-        userApplications: [],
         drawerVisible: false
     }),
     mutations: {
@@ -37,9 +35,6 @@ export default {
         },
         initialize(state, value) {
             state.initialize = value
-        },
-        updateUserApplications(state, apps) {
-            state.userApplications = apps
         },
         // 打开应用
         openApp(state: any, name) {

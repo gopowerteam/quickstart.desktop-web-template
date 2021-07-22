@@ -25,9 +25,9 @@ const onOpenApp = app => {
 
 // 获取应用列表
 const applications = computed(() => {
-    return store.state.app.desktopApps
-        .filter(x => store.state.app.userApplications.includes(x))
-        .map(x => store.state.app.applications.find(app => app.name === x))
+    return store.state.app.desktopApps.map(x =>
+        store.state.app.applications.find(app => app.name === x)
+    )
 })
 
 // 初始化

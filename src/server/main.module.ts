@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module'
 import { APP_GUARD } from '@nestjs/core'
 import { JwtAuthGuard } from './auth/guards/jwt.guard'
 import { GraphQLModule } from '@nestjs/graphql'
+import { BootStrapService } from './services/bootstrap.service'
 
 // 配置文件路径
 const configFilePath = join(__dirname, '..', '..', 'config.yml')
@@ -39,7 +40,8 @@ const MODULES = [AppModule, UserModule]
             provide: APP_GUARD,
             useClass: JwtAuthGuard
         },
-        ProxyService
+        ProxyService,
+        BootStrapService
     ]
 })
 export class MainModule {}

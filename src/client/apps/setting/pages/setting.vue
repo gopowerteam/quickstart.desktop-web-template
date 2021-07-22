@@ -5,15 +5,14 @@ page-container
             application-config(v-if='currentPane === "application"')
         a-tab-pane(key='group' tab='分组管理')
             group-config(v-if='currentPane === "group"')
-        a-tab-pane(key='role' tab='权限管理')
-            role-config(v-if='currentPane === "role"')
+        //- a-tab-pane(key='role' tab='权限管理')
+        //-     role-config(v-if='currentPane === "role"')
 </template>
 
 <script setup lang="ts">
-import { inject, provide } from 'vue'
 import ApplicationConfig from '../components/application-config.vue'
 import GroupConfig from '../components/group-config.vue'
-import RoleConfig from '../components/role-config.vue'
+// import RoleConfig from '../components/role-config.vue'
 
 ref: currentPane = 'application'
 </script>

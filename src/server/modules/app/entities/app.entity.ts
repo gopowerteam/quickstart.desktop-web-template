@@ -23,6 +23,10 @@ export class App extends pipe(EntityWithDate, EntityWithEnable)(EntityClass) {
     @Field()
     icon: string
 
+    @Column()
+    @Field()
+    maximize: boolean
+
     @ManyToOne(() => Group, group => group.apps)
     @Field(type => Group)
     group: Group

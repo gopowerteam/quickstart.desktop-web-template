@@ -1,10 +1,7 @@
 <template lang="pug">
 .application-center.overflow-auto.py-20.px-10(@click.self='close')
     .application-search-wrapper.flex.justify-center(@click.self='close')
-        a-input.application-search(
-            ref='search'
-            @change.preserve='onSearchInput'
-        )
+        a-input.application-search(ref='search' v-model:value='searchText')
     .application-list.py-10(@click.self='close')
         .application-group(v-for='(apps, group) in applications' :key='group')
             .group-title.py-5.font-bold {{ group }}
@@ -25,12 +22,10 @@
 </template>
 
 <script setup lang="ts">
-import { UserOutlined } from '@ant-design/icons-vue'
 import { useStore } from 'vuex'
-import { ApplicationList } from '@/config/application.config'
-import { Observable, Subject } from 'rxjs'
+import { Observable } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
-import { computed, inject, onMounted, onUnmounted, ref } from 'vue'
+import { inject, onMounted, onUnmounted, ref, watch } from 'vue'
 
 import { IStore } from '@/store'
 import { groupBy } from '@/shared/utils/common.util'
@@ -38,52 +33,66 @@ import { applicationRequest } from '@/graphql/application.graph'
 import { useRequest } from '@/graphql'
 
 const store = useStore(IStore)
-const subject = new Subject<string>()
-const searchText = ref('')
-const close = inject('close:application-center') as any
-const search = ref()
+ref: searchText = ''
+ref: search = ref<HTMLElement>()
 const request = useRequest()
+
+const close = inject('close:application-center') as any
 
 const actions = {
     addDesktop: addDesktop
 }
 
 // 应用列表
-const applications = computed((): { [key: string]: any } => {
-    const apps = store.state.app.applications
-        .filter(x => store.state.app.userApplications.includes(x.name))
-        .filter(x => x.title.includes(searchText.value))
-
-    const groups = groupBy(apps, 'group.name')
-    const defaultGroup = groups['']
-    delete groups['']
-    groups[''] = defaultGroup
-    return groups
-})
+const applications = ref<any[]>(getAppGroup())
 
 const onOpenApp = app => {
     close()
     store.commit('app/openApp', app)
 }
 
-var a = 5
-function onSearchInput({ target: { value } }) {
-    subject.next(value)
+/**
+ * 获取应用分组
+ */
+function getAppGroup(value?) {
+    const apps = store.state.app.applications.filter(
+        x => !value || x.title.includes(value)
+    )
+
+    const groups = groupBy(apps, 'group.name')
+    return groups
 }
 
-subject.pipe(debounceTime(100)).subscribe(name => {
-    searchText.value = name
-})
+/**
+ * 应用搜索
+ **/
+function onSearchApp() {
+    new Observable(subject => watch($searchText, value => subject.next(value)))
+        .pipe(debounceTime(200))
+        .subscribe(value => {
+            applications.value = getAppGroup(value)
+        })
+}
 
+/**
+ * ESC响应
+ */
 function onEsc(e) {
+    console.log(1123)
     if (e.keyCode == 27) close()
 }
 
+/**
+ * 操作行为
+ **/
 function onAction({ key }, app) {
     const action = actions[key]
     action && action(app)
 }
 
+/**
+ * 添加桌面图标
+ */
 function addDesktop(app) {
     request(applicationRequest.addUserDesktopApp, {
         userid: store.state.user.current?.id,
@@ -94,10 +103,10 @@ function addDesktop(app) {
 }
 
 onMounted(() => {
-    console.log(store.state)
-    const searchInput = search.value as any
-    searchInput.focus()
+    search && search.focus()
     document.addEventListener('keyup', onEsc)
+
+    onSearchApp()
 })
 
 onUnmounted(() => {

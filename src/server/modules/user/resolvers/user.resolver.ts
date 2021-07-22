@@ -5,7 +5,6 @@ import {
     Field,
     InputType,
     Mutation,
-    ObjectType,
     Parent,
     Query,
     ResolveField,

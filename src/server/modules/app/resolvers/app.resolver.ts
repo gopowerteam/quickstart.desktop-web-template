@@ -9,6 +9,7 @@ import {
     Resolver
 } from '@nestjs/graphql'
 import { UserRole } from '@server/constants/enum.config'
+import { CurrentUser } from '@server/decorators/current-user.decorator'
 import { Public } from '@server/decorators/public.decorator'
 import { App } from '@server/modules/app/entities/app.entity'
 import { Group } from '@server/modules/app/entities/group.entity'
@@ -44,9 +45,12 @@ export class AppResolver {
     async getSystemInfo() {
         // 是否设置管理员
         const admin = await this.userService.findOne({ role: UserRole.ADMIN })
+        // 系统应用
+        const apps = await this.appService.getAppList()
 
         return {
-            administrator: !!admin
+            administrator: !!admin,
+            apps: apps.map(x => x.name)
         }
     }
     /**
@@ -55,7 +59,8 @@ export class AppResolver {
      * @returns
      */
     @Query(returns => [App])
-    async getAppList() {
+    async getAppList(@CurrentUser() user) {
+        // TODO: 通过用户权限过滤为当前用户应用
         return await this.appService.getAppList()
     }
 

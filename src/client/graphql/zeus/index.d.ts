@@ -36,6 +36,7 @@ export type ValueTypes = {
 }>;
 	["SystemInfo"]: AliasType<{
 	administrator?:true,
+	apps?:true,
 		__typename?: true
 }>;
 	["Query"]: AliasType<{
@@ -94,7 +95,8 @@ export type ModelTypes = {
 		data:string
 };
 	["SystemInfo"]: {
-		administrator:boolean
+		administrator:boolean,
+	apps:string[]
 };
 	["Query"]: {
 		loginByPassword:ModelTypes["ResultString"],
@@ -147,7 +149,8 @@ export type GraphQLTypes = {
 };
 	["SystemInfo"]: {
 	__typename: "SystemInfo",
-	administrator: boolean
+	administrator: boolean,
+	apps: Array<string>
 };
 	["Query"]: {
 	__typename: "Query",

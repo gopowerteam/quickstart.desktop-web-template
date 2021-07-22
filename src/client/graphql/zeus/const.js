@@ -123,7 +123,8 @@ export const ReturnTypes = {
 		data:"String"
 	},
 	SystemInfo:{
-		administrator:"Boolean"
+		administrator:"Boolean",
+		apps:"String"
 	},
 	Query:{
 		loginByPassword:"ResultString",

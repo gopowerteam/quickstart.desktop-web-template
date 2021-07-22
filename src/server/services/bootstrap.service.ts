@@ -13,7 +13,7 @@ export class BootStrapService implements OnApplicationBootstrap {
      * 应用初始化
      */
     async onApplicationBootstrap() {
-        // await this.syncApplicationList()
+        await this.syncApplicationList()
     }
 
     /**
@@ -21,10 +21,11 @@ export class BootStrapService implements OnApplicationBootstrap {
      * @returns
      */
     private async syncApplicationList() {
+        // 获取应用目录
         const apps = await Promise.all(
             readdirSync(appsPath)
-                .filter(path => lstatSync(`${appsPath}\\${path}`).isDirectory())
-                .map(async path => import(`${appsPath}\\${path}\\config.json`))
+                .filter(path => lstatSync(`${appsPath}/${path}`).isDirectory())
+                .map(async path => import(`${appsPath}/${path}/config.json`))
         )
 
         return this.appService.syncAppList(apps)

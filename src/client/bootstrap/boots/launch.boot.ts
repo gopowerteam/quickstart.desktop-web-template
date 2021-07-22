@@ -1,6 +1,5 @@
 import { useGraphql } from '@/graphql'
 import store from '@/store'
-import { ConsoleLogger } from '@nestjs/common'
 
 /**
  * 获取系统状态
@@ -10,7 +9,8 @@ function getSystemInfo() {
     return useGraphql()
         .query({
             getSystemInfo: {
-                administrator: true
+                administrator: true,
+                apps: true
             }
         })
         .then(({ getSystemInfo: data }) => {
@@ -43,6 +43,22 @@ function getUserInfo() {
         })
 }
 
+function getAppList() {
+    return useGraphql()
+        .query({
+            getAppList: {
+                name: true,
+                icon: true,
+                title: true,
+                maximize: true
+            }
+        })
+        .then(({ getAppList: apps }) => {
+            console.log(apps)
+            store.commit('app/updateAppList', apps)
+        })
+}
+
 /**
  * 业务启动逻辑
  */
@@ -58,7 +74,8 @@ export async function globalLaunch() {
  */
 export function userLaunch() {
     // 同步并获取应用
-    return Promise.all([getUserInfo()])
+    return getUserInfo()
+        .then(() => Promise.all([getAppList()]))
         .then(() => true)
         .catch(() => {
             // 用户信息更新失败
