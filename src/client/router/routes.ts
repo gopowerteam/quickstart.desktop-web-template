@@ -7,7 +7,7 @@ import { userLaunch } from '@/bootstrap/boots/launch.boot'
  * @returns
  */
 const canUserAccess = () => {
-    const result = !!store.state.user.current?.id
+    const result = !!store.state.user.token
     return result
 }
 
@@ -34,7 +34,10 @@ export const routes: RouteRecordRaw[] = [
         component: () => import('@/pages/login/login.vue'),
         beforeEnter: async () => {
             const canAccess = await canUserAccess()
+            const systemAccess = await canSystemAccess()
+
             if (canAccess) return '/workspace'
+            if (!systemAccess) return '/welcome'
         }
     },
     {
@@ -48,7 +51,7 @@ export const routes: RouteRecordRaw[] = [
             if (!systemAccess) return '/welcome'
             if (!userAccess) return '/login'
 
-            await userLaunch()
+            return await userLaunch()
         }
     }
 ]

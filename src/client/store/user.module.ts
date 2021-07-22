@@ -30,8 +30,8 @@ export default {
             state.token = token
         },
         clearUser(state) {
-            state.current = {}
-            state.token = ''
+            state.current = null
+            state.token = null
         }
     }
 }

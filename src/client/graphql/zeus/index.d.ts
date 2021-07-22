@@ -34,14 +34,19 @@ export type ValueTypes = {
 	data?:true,
 		__typename?: true
 }>;
+	["SystemInfo"]: AliasType<{
+	administrator?:true,
+		__typename?: true
+}>;
 	["Query"]: AliasType<{
 loginByPassword?: [{	username:string,	password:string},ValueTypes["ResultString"]],
 	getUserByToken?:ValueTypes["User"],
+	getSystemInfo?:ValueTypes["SystemInfo"],
 	getAppList?:ValueTypes["App"],
 		__typename?: true
 }>;
 	["Mutation"]: AliasType<{
-setAdministrator?: [{	user:ValueTypes["UserInput"]},ValueTypes["User"]],
+setAdministrator?: [{	user:ValueTypes["UserInput"]},ValueTypes["ResultString"]],
 syncAppList?: [{	apps:ValueTypes["AppInput"][]},ValueTypes["App"]],
 AddUserDesktopApp?: [{	app:ValueTypes["AppInput"]},ValueTypes["App"]],
 RemoveUserDesktopApp?: [{	app:string},ValueTypes["App"]],
@@ -88,13 +93,17 @@ export type ModelTypes = {
 	["ResultString"]: {
 		data:string
 };
+	["SystemInfo"]: {
+		administrator:boolean
+};
 	["Query"]: {
 		loginByPassword:ModelTypes["ResultString"],
 	getUserByToken:ModelTypes["User"],
+	getSystemInfo:ModelTypes["SystemInfo"],
 	getAppList:ModelTypes["App"][]
 };
 	["Mutation"]: {
-		setAdministrator:ModelTypes["User"],
+		setAdministrator:ModelTypes["ResultString"],
 	syncAppList:ModelTypes["App"][],
 	AddUserDesktopApp:ModelTypes["App"],
 	RemoveUserDesktopApp:ModelTypes["App"]
@@ -136,15 +145,20 @@ export type GraphQLTypes = {
 	__typename: "ResultString",
 	data: string
 };
+	["SystemInfo"]: {
+	__typename: "SystemInfo",
+	administrator: boolean
+};
 	["Query"]: {
 	__typename: "Query",
 	loginByPassword: GraphQLTypes["ResultString"],
 	getUserByToken: GraphQLTypes["User"],
+	getSystemInfo: GraphQLTypes["SystemInfo"],
 	getAppList: Array<GraphQLTypes["App"]>
 };
 	["Mutation"]: {
 	__typename: "Mutation",
-	setAdministrator: GraphQLTypes["User"],
+	setAdministrator: GraphQLTypes["ResultString"],
 	syncAppList: Array<GraphQLTypes["App"]>,
 	AddUserDesktopApp: GraphQLTypes["App"],
 	RemoveUserDesktopApp: GraphQLTypes["App"]

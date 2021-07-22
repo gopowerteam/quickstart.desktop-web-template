@@ -63,7 +63,7 @@ const formRules = {
 
 // #region Function
 // 用户登陆
-function onSubmit(...a) {
+function onSubmit() {
     const { username, password } = toRaw(formModel)
 
     const loginRequest = gql.query({
@@ -73,23 +73,19 @@ function onSubmit(...a) {
                 password
             },
             {
-                id: true,
-                username: true,
-                nickname: true,
-                role: true,
-                desktop: {
-                    name: true
-                }
+                data: true
             }
         ]
     })
 
     loginRequest
-        .then(({ loginByPassword: user }) => {
-            store.dispatch('user/login', user)
+        .then(({ loginByPassword: { data: token } }) => {
+            // 更新用户token
+            store.commit('user/updateToken', token)
+            // 跳转根页面
             router.push({ path: '/' })
         })
-        .catch(() => {
+        .catch(ex => {
             message.error('用户名或密码错误')
         })
 }

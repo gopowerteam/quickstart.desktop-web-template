@@ -6,7 +6,7 @@ import { routes } from './routes'
 
 // 验证用户是否成功登录
 const canUserAccess = () => {
-    const result = !!store.state.user.current?.id
+    const result = !!store.state.user.token
     return result
 }
 

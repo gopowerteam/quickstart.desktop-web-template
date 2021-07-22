@@ -8,10 +8,13 @@ import {
     ResolveField,
     Resolver
 } from '@nestjs/graphql'
+import { UserRole } from '@server/constants/enum.config'
 import { Public } from '@server/decorators/public.decorator'
 import { App } from '@server/modules/app/entities/app.entity'
 import { Group } from '@server/modules/app/entities/group.entity'
 import { AppService } from '@server/modules/app/services/app.service'
+import { UserService } from '@server/modules/user/services/user.service'
+import { SystemInfo } from '../entities/system-info.entity'
 
 @InputType()
 class AppInput implements Partial<App> {
@@ -27,8 +30,25 @@ class AppInput implements Partial<App> {
 
 @Resolver(of => App)
 export class AppResolver {
-    constructor(private readonly appService: AppService) {}
+    constructor(
+        private readonly appService: AppService,
+        private readonly userService: UserService
+    ) {}
 
+    /**
+     * 获取系统状态
+     * @returns
+     */
+    @Public()
+    @Query(returns => SystemInfo)
+    async getSystemInfo() {
+        // 是否设置管理员
+        const admin = await this.userService.findOne({ role: UserRole.ADMIN })
+
+        return {
+            administrator: !!admin
+        }
+    }
     /**
      * 获取应用列表
      * @param param0

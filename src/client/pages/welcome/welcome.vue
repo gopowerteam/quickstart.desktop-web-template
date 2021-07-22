@@ -63,10 +63,13 @@ const formRules = {
     ]
 }
 
+/**
+ * 设置管理员
+ */
 async function onSubmit() {
-    const registerAdmin = data =>
+    const setAdministrator = data =>
         gql.mutation({
-            registerUser: [
+            setAdministrator: [
                 {
                     user: {
                         ...data,
@@ -74,23 +77,20 @@ async function onSubmit() {
                     }
                 },
                 {
-                    id: true,
-                    nickname: true,
-                    username: true,
-                    role: true,
-                    desktop: {
-                        name: true
-                    }
+                    data: true
                 }
             ]
         })
 
     await formRef
         .validate()
-        .then(registerAdmin)
-        .then(({ registerUser: user }) => {
+        .then(setAdministrator)
+        .then(({ setAdministrator: { data: token } }) => {
+            // 设置系统初始化状态
             store.commit('app/initialize', true)
-            store.dispatch('user/login', user)
+            // 更新用户token
+            store.commit('user/updateToken', token)
+            // 跳转根页面
             router.push('/')
         })
         .catch(() => {

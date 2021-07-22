@@ -122,13 +122,17 @@ export const ReturnTypes = {
 	ResultString:{
 		data:"String"
 	},
+	SystemInfo:{
+		administrator:"Boolean"
+	},
 	Query:{
 		loginByPassword:"ResultString",
 		getUserByToken:"User",
+		getSystemInfo:"SystemInfo",
 		getAppList:"App"
 	},
 	Mutation:{
-		setAdministrator:"User",
+		setAdministrator:"ResultString",
 		syncAppList:"App",
 		AddUserDesktopApp:"App",
 		RemoveUserDesktopApp:"App"

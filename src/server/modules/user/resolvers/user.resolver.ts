@@ -74,7 +74,6 @@ export class UserResolver {
 
     @Query(returns => User)
     public getUserByToken(@CurrentUser() user: User) {
-        console.log(user)
         return user
     }
 
@@ -82,12 +81,24 @@ export class UserResolver {
      * 设置管理员
      */
     @Public()
-    @Mutation(returns => User)
+    @Mutation(returns => ResultString)
     async setAdministrator(@Args('user') user: UserInput) {
         const admin = await this.userService.findOne({ role: UserRole.ADMIN })
 
         if (!admin) {
-            return this.userService.createUser(user)
+            const { username, id } = await this.userService.createUser({
+                ...user,
+                nickname: '系统管理员',
+                role: UserRole.ADMIN
+            })
+            const { access_token } = await this.authService.login({
+                username,
+                id
+            })
+
+            return {
+                data: access_token
+            }
         } else {
             throw new HttpException('管理员已存在', 400)
         }

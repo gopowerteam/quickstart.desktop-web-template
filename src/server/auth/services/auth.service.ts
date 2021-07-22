@@ -20,6 +20,17 @@ export class AuthService {
         return null
     }
 
+    async getUserById(id: string, username: string): Promise<any> {
+        const user = await this.userService.findOne({ id, username })
+
+        if (user) {
+            const { password, ...result } = user
+            return result
+        }
+
+        return null
+    }
+
     async login(user: any) {
         const payload = { username: user.username, sub: user.id }
         return {
