@@ -32,39 +32,22 @@
 </template>
 
 <script setup lang="ts">
-import { inject, onActivated, onMounted, ref, watch } from 'vue'
+import { onMounted, ref } from 'vue'
 import { ApplicationList } from '@/config/application.config'
-import { applicationRequest } from '@/graphql/application.graph'
 import { message } from 'ant-design-vue'
+import { useGraphql } from '@/graphql'
 
-const apps = ref<any[]>([])
-const currentApp = ref<any>()
-const groups = ref<any[]>([])
-
-const model = ref<{
+ref: apps = ref<any[]>([])
+ref: currentApp = ref<any>()
+ref: groups = ref<any[]>([])
+ref: model = ref<{
     name: string
     title: string
     icon: string
     group: string
 }>()
 
-/**
- * 同步应用列表
- */
-function onSyncAppList() {
-    const appList = ApplicationList.map(x => ({
-        name: x.name,
-        title: x.title,
-        icon: x.icon
-    }))
-
-    // request(applicationRequest.syncAppList, {
-    //     apps: appList
-    // }).then(data => {
-    //     getAppList()
-    //     message.success('同步成功')
-    // })
-}
+const graphql = useGraphql()
 
 function onUpload(file) {
     //- cosUtil.pubObject(file).then(({ Location }) => {
@@ -76,14 +59,30 @@ function onUpload(file) {
 }
 
 function getAppList() {
+    graphql
+        .query({
+            getAppList: {
+                name: true,
+                title: true,
+                icon: true,
+                maximize: true,
+                group: {
+                    id: true,
+                    name: true
+                }
+            }
+        })
+        .then(({ getAppList: data }) => {
+            apps = data
+        })
     // request(applicationRequest.getAppList).then(({ GetAppList: data }) => {
     //     apps.value = data
     // })
 }
 
 function onChangeApp(app) {
-    currentApp.value = app
-    model.value = {
+    currentApp = app
+    model = {
         name: app.name,
         title: app.title,
         icon: app.icon,

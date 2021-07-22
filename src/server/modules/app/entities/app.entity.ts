@@ -28,6 +28,6 @@ export class App extends pipe(EntityWithDate, EntityWithEnable)(EntityClass) {
     maximize: boolean
 
     @ManyToOne(() => Group, group => group.apps)
-    @Field(type => Group)
-    group: Group
+    @Field(type => Group, { nullable: true })
+    group?: Group
 }

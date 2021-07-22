@@ -14,6 +14,7 @@ export type ValueTypes = {
 	name?:true,
 	title?:true,
 	icon?:true,
+	maximize?:true,
 	group?:ValueTypes["Group"],
 		__typename?: true
 }>;
@@ -77,7 +78,8 @@ export type ModelTypes = {
 	name:string,
 	title:string,
 	icon:string,
-	group:ModelTypes["Group"]
+	maximize:boolean,
+	group?:ModelTypes["Group"]
 };
 	["User"]: {
 		id:number,
@@ -128,7 +130,8 @@ export type GraphQLTypes = {
 	name: string,
 	title: string,
 	icon: string,
-	group: GraphQLTypes["Group"]
+	maximize: boolean,
+	group?: GraphQLTypes["Group"]
 };
 	["User"]: {
 	__typename: "User",

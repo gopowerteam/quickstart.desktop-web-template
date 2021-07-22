@@ -106,6 +106,7 @@ export const ReturnTypes = {
 		name:"String",
 		title:"String",
 		icon:"String",
+		maximize:"Boolean",
 		group:"Group"
 	},
 	User:{

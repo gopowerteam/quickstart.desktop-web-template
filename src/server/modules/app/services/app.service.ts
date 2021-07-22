@@ -14,7 +14,7 @@ export class AppService {
      * @returns
      */
     async getAppList() {
-        return this.appRepository.find()
+        return this.appRepository.find({ relations: ['group'] })
     }
 
     /**

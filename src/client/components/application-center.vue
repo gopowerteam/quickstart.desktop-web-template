@@ -78,7 +78,6 @@ function onSearchApp() {
  * ESC响应
  */
 function onEsc(e) {
-    console.log(1123)
     if (e.keyCode == 27) close()
 }
 

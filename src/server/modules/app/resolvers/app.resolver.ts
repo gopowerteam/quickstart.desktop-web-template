@@ -47,7 +47,6 @@ export class AppResolver {
         const admin = await this.userService.findOne({ role: UserRole.ADMIN })
         // 系统应用
         const apps = await this.appService.getAppList()
-
         return {
             administrator: !!admin,
             apps: apps.map(x => x.name)
@@ -61,6 +60,7 @@ export class AppResolver {
     @Query(returns => [App])
     async getAppList(@CurrentUser() user) {
         // TODO: 通过用户权限过滤为当前用户应用
+        console.log(await this.appService.getAppList())
         return await this.appService.getAppList()
     }
 

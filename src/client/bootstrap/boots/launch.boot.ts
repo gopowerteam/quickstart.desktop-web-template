@@ -54,7 +54,6 @@ function getAppList() {
             }
         })
         .then(({ getAppList: apps }) => {
-            console.log(apps)
             store.commit('app/updateAppList', apps)
         })
 }
