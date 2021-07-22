@@ -80,6 +80,15 @@ function getDefaultPosition() {
     if (position.top < 0) position.top = 0
 }
 
+function setDefaultState() {
+    if (props.app.maximize) {
+        store.commit('app/maximizeApp', {
+            id: props.app.id,
+            value: props.app.maximize
+        })
+    }
+}
+
 // 激活窗口
 function onActiveApp() {
     store.commit('app/activeApp', props.app.id)
@@ -195,6 +204,9 @@ provide('navigate', navigate)
 onMounted(() => {
     // 获取默认位置
     getDefaultPosition()
+
+    // 设置默认状态
+    setDefaultState()
 })
 // #endregion
 </script>

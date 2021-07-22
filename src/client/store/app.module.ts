@@ -38,14 +38,16 @@ export default {
         },
         // 打开应用
         openApp(state: any, name) {
+            // 获取目标应用
             const target = state.applications.find(x => x.name === name)
+            // 获取本地应用配置
             const app = ApplicationList.find(x => x.name === name)
-
+            // 计算应用Index
             const index = Math.max(
                 ...state.applicationInstances.map(x => x.index),
                 0
             )
-
+            // 检测非正常应用
             if (!target || !app) {
                 return
             }
@@ -55,7 +57,7 @@ export default {
                 name: name,
                 id: Math.random().toString(32).slice(-6),
                 minimize: false,
-                maximize: false,
+                maximize: target.maximize,
                 root: app.root,
                 icon: target.icon,
                 title: target.title,
@@ -68,7 +70,9 @@ export default {
                 }
             }
 
+            // 修改应用激活状态
             state.applicationInstances.forEach(x => (x.active = false))
+            // 添加应用实例
             state.applicationInstances.push(application)
         },
         // 激活应用
@@ -100,9 +104,12 @@ export default {
             app.minimize = true
         },
         // 最大化应用
-        maximizeApp(state: any, id) {
+        maximizeApp(
+            state: any,
+            { id, value }: { id: number; value?: boolean }
+        ) {
             const app = state.applicationInstances.find(x => x.id === id)
-            app.maximize = !app.maximize
+            app.maximize = value || !app.maximize
 
             if (app.event.maximize) {
                 app.event.maximize(app.maximize)

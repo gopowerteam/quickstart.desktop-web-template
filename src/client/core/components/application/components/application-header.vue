@@ -38,7 +38,7 @@ const onClose = () => {
 }
 
 const onMax = () => {
-    store.commit('app/maximizeApp', app.id)
+    store.commit('app/maximizeApp', { id: app.id })
 }
 
 const onMin = () => {
