@@ -33,7 +33,6 @@ const props = defineProps({
 
 const screenHeight = inject('screenHeight') as any
 const screenWidth = inject('screenWidth') as any
-
 // #region Variable
 // 位置数据
 const position = reactive<{
@@ -48,10 +47,10 @@ const position = reactive<{
 }>({
     top: 0,
     left: 0,
-    width: 1400,
-    height: 768,
-    minWidth: 720,
-    minHeight: 480,
+    width: screenWidth.value * 0.8,
+    height: screenHeight.value * 0.8,
+    minWidth: screenWidth.value * 0.5,
+    minHeight: screenHeight.value * 0.5,
     index: props.app.index,
     before: {}
 })
