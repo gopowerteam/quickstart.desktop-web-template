@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { App } from '@server/modules/app/entities/app.entity'
 import { User } from '@server/modules/user/entities/user.entity'
 import { Repository } from 'typeorm'
 
@@ -62,6 +63,32 @@ export class UserService {
         })
 
         return user?.desktop
+    }
+
+    /**
+     * 添加用户桌面应用
+     * @param user
+     * @param app
+     * @returns
+     */
+    async addUserDesktopApp(user: User, app: App) {
+        if (!user.desktop.find(x => x.name === app.name)) {
+            user.desktop.push(app)
+        }
+
+        return this.userRepository.save(user, { reload: true })
+    }
+
+    /**
+     * 删除用户桌面应用
+     * @param user
+     * @param app
+     * @returns
+     */
+    async removeUserDesktopApp(user: User, app: string) {
+        user.desktop = user.desktop.filter(x => x.name !== app)
+
+        return this.userRepository.save(user, { reload: true })
     }
 
     /**

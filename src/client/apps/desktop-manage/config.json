@@ -1,6 +1,6 @@
 {
     "name": "desktop-manage",
-    "icon": "/icons/user.png",
+    "icon": "/icons/appstore.png",
     "title": "桌面管理",
     "maximize": true,
     "admin": true

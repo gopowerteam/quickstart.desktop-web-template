@@ -10,6 +10,17 @@ export class AppService {
     ) {}
 
     /**
+     * 查询用户
+     * @param username
+     * @returns
+     */
+    async findOne(conditions: { [key: string]: any }) {
+        return this.appRepository.findOne(conditions, {
+            relations: ['group']
+        })
+    }
+
+    /**
      * 获取应用列表
      * @returns
      */
@@ -32,15 +43,5 @@ export class AppService {
             .execute()
 
         return await this.getAppList()
-    }
-
-    async addUserDesktopApp(app: Partial<App>) {
-        // TODO
-        return app
-    }
-
-    async removeUserDesktopApp(appName: string) {
-        // TODO
-        return {}
     }
 }

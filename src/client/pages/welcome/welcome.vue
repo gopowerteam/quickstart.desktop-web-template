@@ -77,7 +77,7 @@ async function onSubmit() {
                     }
                 },
                 {
-                    data: true
+                    result: true
                 }
             ]
         })
@@ -85,7 +85,7 @@ async function onSubmit() {
     await formRef
         .validate()
         .then(setAdministrator)
-        .then(({ setAdministrator: { data: token } }) => {
+        .then(({ setAdministrator: { result: token } }) => {
             // 设置系统初始化状态
             store.commit('app/initialize', true)
             // 更新用户token

@@ -14,7 +14,7 @@ import { AuthService } from '@server/auth/services/auth.service'
 import { UserRole } from '@server/constants/enum.config'
 import { CurrentUser } from '@server/decorators/current-user.decorator'
 import { Public } from '@server/decorators/public.decorator'
-import { ResultString } from '@server/graphql/result'
+import { createResult, ResultString } from '@server/graphql/result'
 import { App } from '@server/modules/app/entities/app.entity'
 import { User } from '@server/modules/user/entities/user.entity'
 import { UserService } from '@server/modules/user/services/user.service'
@@ -63,9 +63,7 @@ export class UserResolver {
                 id: user.id
             })
 
-            return {
-                data: access_token
-            }
+            return createResult(ResultString, access_token)
         } else {
             throw new UnauthorizedException()
         }
@@ -94,10 +92,7 @@ export class UserResolver {
                 username,
                 id
             })
-
-            return {
-                data: access_token
-            }
+            return createResult(ResultString, access_token)
         } else {
             throw new HttpException('管理员已存在', 400)
         }

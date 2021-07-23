@@ -6,19 +6,25 @@
         .application-group(v-for='(apps, group) in applications' :key='group')
             .group-title.py-5.font-bold {{ group }}
             .group-apps.py-5.flex.flex-wrap
-                a-dropdown(
-                    :trigger='["contextmenu"]'
+                .application.mx-10.cursor-pointer(
                     v-for='app of apps'
                     :key='app.name'
                 )
-                    .application.mx-10.cursor-pointer(
-                        @click.preserve='onOpenApp(app.name)'
-                    )
-                        .icon.text-center: img.w-16.m-auto(:src='app.icon')
-                        .title.text-white.text-center.py-3 {{ app.title }}
-                    template(#overlay)
-                        a-menu(@click='onAction($event, app.name)')
-                            a-menu-item(key='addDesktop') 创建桌面图标
+                    .icon.text-center
+                        img.w-16.m-auto(
+                            :src='app.icon'
+                            :draggable='true'
+                            @click.preserve='onOpenApp(app.name)'
+                            @dragstart='onDragStart(app, $event)'
+                            @dragend='onDragEnd'
+                        )
+                    .title.text-white.text-center.py-3 {{ app.title }}
+    .application-dragging.absolute.flex.justify-center.items-center(
+        v-if='dragging'
+        @drop.prevent='onDrop'
+        @dragover.prevent='onDragOver'
+    )
+        .div.text-lg 创建桌面快捷图标
 </template>
 
 <script setup lang="ts">
@@ -29,26 +35,26 @@ import { inject, onMounted, onUnmounted, ref, watch } from 'vue'
 
 import { IStore } from '@/store'
 import { groupBy } from '@/shared/utils/common.util'
-import { applicationRequest } from '@/graphql/application.graph'
-import { useRequest } from '@/graphql'
-
+import { useGraphql } from '@/graphql'
+import { Modal } from 'ant-design-vue'
+const graphql = useGraphql()
 const store = useStore(IStore)
 ref: searchText = ''
 ref: search = ref<HTMLElement>()
-const request = useRequest()
+ref: dragging = ref(false)
 
+// 关闭应用中心
 const close = inject('close:application-center') as any
-
-const actions = {
-    addDesktop: addDesktop
-}
 
 // 应用列表
 const applications = ref<any[]>(getAppGroup())
 
-const onOpenApp = app => {
-    close()
+/**
+ * 打开应用
+ */
+function onOpenApp(app) {
     store.commit('app/openApp', app)
+    close()
 }
 
 /**
@@ -63,6 +69,35 @@ function getAppGroup(value?) {
     return groups
 }
 
+/**
+ * 图标拖拽
+ **/
+function onDragStart(app, { dataTransfer }) {
+    dragging = true
+
+    dataTransfer.dropEffect = 'move'
+    dataTransfer.setData('text/plain', app.name)
+}
+
+function onDragEnd(event) {
+    dragging = false
+}
+
+function onDrop({ dataTransfer }) {
+    const name = dataTransfer.getData('text')
+    const app = store.state.app.applications.find(x => x.name == name)
+    Modal.confirm({
+        title: '创建桌面快捷方式',
+        content: `是否确定创建应用 <${app.title}> 的桌面快捷方式?`,
+        onOk() {
+            addDesktopApp(app)
+        }
+    })
+}
+
+function onDragOver(event) {
+    event.preventDefault()
+}
 /**
  * 应用搜索
  **/
@@ -82,26 +117,27 @@ function onEsc(e) {
 }
 
 /**
- * 操作行为
- **/
-function onAction({ key }, app) {
-    const action = actions[key]
-    action && action(app)
-}
-
-/**
  * 添加桌面图标
  */
-function addDesktop(app) {
-    request(applicationRequest.addUserDesktopApp, {
-        userid: store.state.user.current?.id,
-        app
-    }).then(data => {
-        store.dispatch('app/syncDesktopApps')
-    })
+function addDesktopApp(app) {
+    graphql
+        .mutation({
+            addUserDesktopApp: [
+                {
+                    app: app.name
+                },
+                {
+                    result: true
+                }
+            ]
+        })
+        .then(({ addUserDesktopApp: { result } }) => {
+            store.commit('app/updateDesktopApps', result)
+        })
 }
 
 onMounted(() => {
+    // 默认焦点
     search && search.focus()
     document.addEventListener('keyup', onEsc)
 
@@ -140,4 +176,11 @@ onUnmounted(() => {
           .icon
             img
                 border-radius 10px
+  .application-dragging
+    bottom 0
+    left 0
+    right 0
+    height 300px
+    background rgba(0,0,0,0.6)
+    color #fff
 </style>

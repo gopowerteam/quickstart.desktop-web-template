@@ -27,23 +27,15 @@ export const AllTypesProps = {
 				required:true
 			}
 		},
-		syncAppList:{
-			apps:{
-				type:"AppInput",
-				array:true,
-				arrayRequired:true,
-				required:true
-			}
-		},
-		AddUserDesktopApp:{
+		addUserDesktopApp:{
 			app:{
-				type:"AppInput",
+				type:"String",
 				array:false,
 				arrayRequired:false,
 				required:true
 			}
 		},
-		RemoveUserDesktopApp:{
+		removeUserDesktopApp:{
 			app:{
 				type:"String",
 				array:false,
@@ -70,26 +62,6 @@ export const AllTypesProps = {
 			array:false,
 			arrayRequired:false,
 			required:false
-		}
-	},
-	AppInput:{
-		name:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		title:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
-		},
-		icon:{
-			type:"String",
-			array:false,
-			arrayRequired:false,
-			required:true
 		}
 	}
 }
@@ -121,7 +93,13 @@ export const ReturnTypes = {
 		desktop:"App"
 	},
 	ResultString:{
-		data:"String"
+		result:"String"
+	},
+	ResultStringArray:{
+		result:"String"
+	},
+	ResultBoolean:{
+		result:"Boolean"
 	},
 	SystemInfo:{
 		administrator:"Boolean",
@@ -135,8 +113,7 @@ export const ReturnTypes = {
 	},
 	Mutation:{
 		setAdministrator:"ResultString",
-		syncAppList:"App",
-		AddUserDesktopApp:"App",
-		RemoveUserDesktopApp:"App"
+		addUserDesktopApp:"ResultStringArray",
+		removeUserDesktopApp:"ResultBoolean"
 	}
 }

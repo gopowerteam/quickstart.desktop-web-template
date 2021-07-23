@@ -4,9 +4,17 @@
         v-for='app of applications'
         :key='app.name'
         @dblclick='onOpenApp(app.name)'
+        @dragstart='onDragStart(app, $event)'
+        @dragend='onDragEnd'
     )
         .icon: img(:src='app.icon')
         .title {{ app.title }}
+    .application-recycle.absolute(
+        v-if='dragging'
+        @drop.prevent='onDrop'
+        @dragover.prevent='onDragOver'
+    )
+        img.icon(:draggable='false' src='/icons/recycle.png')
     drawer
 </template>
 
@@ -15,8 +23,13 @@ import { useStore } from 'vuex'
 import Drawer from './drawer.vue'
 import { IStore } from '@/store'
 import { computed, onMounted } from 'vue'
+import { Modal } from 'ant-design-vue'
+import { useGraphql } from '@/graphql'
 
 const store = useStore(IStore)
+const graphql = useGraphql()
+
+ref: dragging = false
 
 // 打开应用
 const onOpenApp = app => {
@@ -30,11 +43,67 @@ const applications = computed(() => {
     )
 })
 
+/**
+ * 图标拖拽
+ **/
+function onDragStart(app, { dataTransfer }) {
+    dragging = true
+
+    dataTransfer.dropEffect = 'move'
+    dataTransfer.setData('text/plain', app.name)
+}
+
+function onDragEnd(event) {
+    dragging = false
+}
+
+function onDrop({ dataTransfer }) {
+    const name = dataTransfer.getData('text')
+    const app = store.state.app.applications.find(x => x.name == name)
+    Modal.confirm({
+        title: '删除桌面快捷方式',
+        content: `是否删除创建应用 <${app.title}> 的桌面快捷方式?`,
+        onOk() {
+            removeDesktopApp(app)
+        }
+    })
+}
+
+function onDragOver(event) {
+    event.preventDefault()
+}
+
+function removeDesktopApp(app) {
+    graphql
+        .mutation({
+            removeUserDesktopApp: [
+                {
+                    app: app.name
+                },
+                {
+                    result: true
+                }
+            ]
+        })
+        .then(({ removeUserDesktopApp: { result } }) => {
+            store.commit('app/updateDesktopApps', result)
+        })
+}
+
 // 初始化
 onMounted(() => {})
 </script>
 
 <style lang="less" scoped>
+.application-recycle {
+    bottom: 0;
+    right: 0;
+    padding: 20px;
+    .icon {
+        width: 70px;
+        height: 70px;
+    }
+}
 .application {
     margin: 5px 20px;
     padding: 5px;

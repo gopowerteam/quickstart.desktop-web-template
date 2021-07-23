@@ -32,7 +32,15 @@ export type ValueTypes = {
 }>;
 	["UserRole"]:UserRole;
 	["ResultString"]: AliasType<{
-	data?:true,
+	result?:true,
+		__typename?: true
+}>;
+	["ResultStringArray"]: AliasType<{
+	result?:true,
+		__typename?: true
+}>;
+	["ResultBoolean"]: AliasType<{
+	result?:true,
 		__typename?: true
 }>;
 	["SystemInfo"]: AliasType<{
@@ -49,20 +57,14 @@ loginByPassword?: [{	username:string,	password:string},ValueTypes["ResultString"
 }>;
 	["Mutation"]: AliasType<{
 setAdministrator?: [{	user:ValueTypes["UserInput"]},ValueTypes["ResultString"]],
-syncAppList?: [{	apps:ValueTypes["AppInput"][]},ValueTypes["App"]],
-AddUserDesktopApp?: [{	app:ValueTypes["AppInput"]},ValueTypes["App"]],
-RemoveUserDesktopApp?: [{	app:string},ValueTypes["App"]],
+addUserDesktopApp?: [{	app:string},ValueTypes["ResultStringArray"]],
+removeUserDesktopApp?: [{	app:string},ValueTypes["ResultBoolean"]],
 		__typename?: true
 }>;
 	["UserInput"]: {
 	username:string,
 	password:string,
 	role?:string
-};
-	["AppInput"]: {
-	name:string,
-	title:string,
-	icon:string
 }
   }
 
@@ -94,7 +96,13 @@ export type ModelTypes = {
 };
 	["UserRole"]: GraphQLTypes["UserRole"];
 	["ResultString"]: {
-		data:string
+		result:string
+};
+	["ResultStringArray"]: {
+		result:string[]
+};
+	["ResultBoolean"]: {
+		result:boolean
 };
 	["SystemInfo"]: {
 		administrator:boolean,
@@ -108,12 +116,10 @@ export type ModelTypes = {
 };
 	["Mutation"]: {
 		setAdministrator:ModelTypes["ResultString"],
-	syncAppList:ModelTypes["App"][],
-	AddUserDesktopApp:ModelTypes["App"],
-	RemoveUserDesktopApp:ModelTypes["App"]
+	addUserDesktopApp:ModelTypes["ResultStringArray"],
+	removeUserDesktopApp:ModelTypes["ResultBoolean"]
 };
-	["UserInput"]: GraphQLTypes["UserInput"];
-	["AppInput"]: GraphQLTypes["AppInput"]
+	["UserInput"]: GraphQLTypes["UserInput"]
     }
 
 export type GraphQLTypes = {
@@ -148,7 +154,15 @@ export type GraphQLTypes = {
 	["UserRole"]: UserRole;
 	["ResultString"]: {
 	__typename: "ResultString",
-	data: string
+	result: string
+};
+	["ResultStringArray"]: {
+	__typename: "ResultStringArray",
+	result: Array<string>
+};
+	["ResultBoolean"]: {
+	__typename: "ResultBoolean",
+	result: boolean
 };
 	["SystemInfo"]: {
 	__typename: "SystemInfo",
@@ -165,19 +179,13 @@ export type GraphQLTypes = {
 	["Mutation"]: {
 	__typename: "Mutation",
 	setAdministrator: GraphQLTypes["ResultString"],
-	syncAppList: Array<GraphQLTypes["App"]>,
-	AddUserDesktopApp: GraphQLTypes["App"],
-	RemoveUserDesktopApp: GraphQLTypes["App"]
+	addUserDesktopApp: GraphQLTypes["ResultStringArray"],
+	removeUserDesktopApp: GraphQLTypes["ResultBoolean"]
 };
 	["UserInput"]: {
 		username: string,
 	password: string,
 	role?: string
-};
-	["AppInput"]: {
-		name: string,
-	title: string,
-	icon: string
 }
     }
 export enum UserRole {

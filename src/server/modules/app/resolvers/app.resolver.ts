@@ -11,9 +11,15 @@ import {
 import { UserRole } from '@server/constants/enum.config'
 import { CurrentUser } from '@server/decorators/current-user.decorator'
 import { Public } from '@server/decorators/public.decorator'
+import {
+    createResult,
+    ResultBoolean,
+    ResultStringArray
+} from '@server/graphql/result'
 import { App } from '@server/modules/app/entities/app.entity'
 import { Group } from '@server/modules/app/entities/group.entity'
 import { AppService } from '@server/modules/app/services/app.service'
+import { User } from '@server/modules/user/entities/user.entity'
 import { UserService } from '@server/modules/user/services/user.service'
 import { SystemInfo } from '../entities/system-info.entity'
 
@@ -60,31 +66,46 @@ export class AppResolver {
     @Query(returns => [App])
     async getAppList(@CurrentUser() user) {
         // TODO: 通过用户权限过滤为当前用户应用
-        console.log(await this.appService.getAppList())
         return await this.appService.getAppList()
     }
 
     /**
-     * 同步应用列表
-     * @param apps
+     * 添加用户桌面应用
+     * @param user
+     * @param app
      * @returns
      */
-    @Public()
-    @Mutation(returns => [App])
-    async syncAppList(
-        @Args('apps', { type: () => [AppInput] }) apps: AppInput[]
+    @Mutation(returns => ResultStringArray)
+    async addUserDesktopApp(
+        @CurrentUser() user: User,
+        @Args('app') app: string
     ) {
-        return await this.appService.syncAppList(apps)
+        const target = await this.appService.findOne({ name: app })
+
+        if (target) {
+            user = await this.userService.addUserDesktopApp(user, target)
+        }
+
+        return createResult(
+            ResultStringArray,
+            user.desktop.map(x => x.name)
+        )
     }
 
-    @Mutation(returns => App)
-    async AddUserDesktopApp(@Args('app') app: AppInput) {
-        return await this.appService.addUserDesktopApp(app)
-    }
+    /**
+     * 删除用户桌面应用
+     */
+    @Mutation(returns => ResultStringArray)
+    async removeUserDesktopApp(
+        @CurrentUser() user: User,
+        @Args('app') app: string
+    ) {
+        user = await this.userService.removeUserDesktopApp(user, app)
 
-    @Mutation(returns => App)
-    async RemoveUserDesktopApp(@Args('app') appName: string) {
-        return await this.appService.removeUserDesktopApp(appName)
+        return createResult(
+            ResultStringArray,
+            user.desktop.map(x => x.name)
+        )
     }
 
     @ResolveField(returns => Group)

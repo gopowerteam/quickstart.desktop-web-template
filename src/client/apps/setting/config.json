@@ -1,6 +1,6 @@
 {
     "name": "setting",
-    "icon": "/icons/user.png",
+    "icon": "/icons/setting.png",
     "title": "系统设置",
     "maximize": true,
     "admin": true

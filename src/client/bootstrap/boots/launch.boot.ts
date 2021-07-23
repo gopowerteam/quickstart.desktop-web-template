@@ -39,7 +39,10 @@ function getUserInfo() {
             // 更新用户信息
             store.commit('user/updateUser', user)
             // 更新桌面应用
-            store.commit('app/updateDesktopApps', desktop)
+            store.commit(
+                'app/updateDesktopApps',
+                desktop.map(x => x.name)
+            )
         })
 }
 

@@ -73,13 +73,13 @@ function onSubmit() {
                 password
             },
             {
-                data: true
+                result: true
             }
         ]
     })
 
     loginRequest
-        .then(({ loginByPassword: { data: token } }) => {
+        .then(({ loginByPassword: { result: token } }) => {
             // 更新用户token
             store.commit('user/updateToken', token)
             // 跳转根页面
