@@ -1,8 +1,18 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJSX from '@vitejs/plugin-vue-jsx'
-import { resolve, join } from 'path'
+import path, { resolve, join } from 'path'
 import svgLoader from 'vite-svg-loader'
+
+// 全局样式变量
+const stylusVaribles = path.join(
+    __dirname,
+    'src',
+    'client',
+    'assets',
+    'styles',
+    'varibles.styl'
+)
 // https://vitejs.dev/config/
 export default defineConfig({
     server: {
@@ -24,9 +34,9 @@ export default defineConfig({
     },
     css: {
         preprocessorOptions: {
-            // stylus: {
-            //     additionalData: `$injectedColor: orange;`
-            // }
+            stylus: {
+                additionalData: `@import "${stylusVaribles}";`
+            }
         }
     },
     plugins: [

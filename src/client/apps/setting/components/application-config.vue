@@ -133,8 +133,7 @@ onMounted(() => {
 .application-list
     .application-item
         &.active
-            background-color rgba(0,200,0,0.1)
-            color lightgreen
+            color $primary-color
         &:hover
             background-color rgba(0,0,0,0.1)
 </style>
