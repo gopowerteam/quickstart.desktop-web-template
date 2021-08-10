@@ -35,6 +35,14 @@ export const AllTypesProps = {
 				required:true
 			}
 		},
+		createGroup:{
+			name:{
+				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
 		removeUserDesktopApp:{
 			app:{
 				type:"String",
@@ -98,9 +106,6 @@ export const ReturnTypes = {
 	ResultStringArray:{
 		result:"String"
 	},
-	ResultBoolean:{
-		result:"Boolean"
-	},
 	SystemInfo:{
 		administrator:"Boolean",
 		apps:"String"
@@ -109,11 +114,13 @@ export const ReturnTypes = {
 		loginByPassword:"ResultString",
 		getUserByToken:"User",
 		getSystemInfo:"SystemInfo",
-		getAppList:"App"
+		getAppList:"App",
+		getGroupList:"Group"
 	},
 	Mutation:{
 		setAdministrator:"ResultString",
 		addUserDesktopApp:"ResultStringArray",
-		removeUserDesktopApp:"ResultBoolean"
+		createGroup:"Group",
+		removeUserDesktopApp:"ResultStringArray"
 	}
 }

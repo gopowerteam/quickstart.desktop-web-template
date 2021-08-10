@@ -93,6 +93,24 @@ export class AppResolver {
     }
 
     /**
+     * 获取分组列表
+     * @returns
+     */
+    @Query(returns => [Group])
+    async getGroupList() {
+        return await this.appService.getGroupList()
+    }
+
+    /**
+     * 获取分组列表
+     * @returns
+     */
+    @Mutation(returns => Group)
+    async createGroup(@Args('name') name: string) {
+        return await this.appService.createGroup(name)
+    }
+
+    /**
      * 删除用户桌面应用
      */
     @Mutation(returns => ResultStringArray)
@@ -112,16 +130,6 @@ export class AppResolver {
     async group(@Parent() app: App) {
         return app.group
     }
-
-    // @Query('GetAdminList')
-    // async getAdminList() {
-    //     return await this.applicationService.getAdminList()
-    // }
-
-    // @Query('GetGroupList')
-    // async getGroupList() {
-    //     return await this.applicationService.getGroupList()
-    // }
 
     // @Query('GetUserDesktopApps')
     // async getUserApps(@Args('userid') userid: string) {

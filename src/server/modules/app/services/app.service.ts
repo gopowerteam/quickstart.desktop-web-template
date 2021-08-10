@@ -3,10 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { EntityClass } from '@server/entities'
 import { App } from '@server/modules/app/entities/app.entity'
 import { Repository, UsingJoinColumnIsNotAllowedError } from 'typeorm'
+import { Group } from '../entities/group.entity'
 @Injectable()
 export class AppService {
     constructor(
-        @InjectRepository(App) private appRepository: Repository<App>
+        @InjectRepository(App) private appRepository: Repository<App>,
+        @InjectRepository(Group) private groupRepository: Repository<Group>
     ) {}
 
     /**
@@ -26,6 +28,24 @@ export class AppService {
      */
     async getAppList() {
         return this.appRepository.find({ relations: ['group'] })
+    }
+
+    /**
+     * 获取应用列表
+     * @returns
+     */
+    async getGroupList() {
+        return this.groupRepository.find()
+    }
+
+    /**
+     * 创建应用分组
+     * @returns
+     */
+    async createGroup(name: string) {
+        return this.groupRepository.save({
+            name
+        })
     }
 
     /**

@@ -39,10 +39,6 @@ export type ValueTypes = {
 	result?:true,
 		__typename?: true
 }>;
-	["ResultBoolean"]: AliasType<{
-	result?:true,
-		__typename?: true
-}>;
 	["SystemInfo"]: AliasType<{
 	administrator?:true,
 	apps?:true,
@@ -53,12 +49,14 @@ loginByPassword?: [{	username:string,	password:string},ValueTypes["ResultString"
 	getUserByToken?:ValueTypes["User"],
 	getSystemInfo?:ValueTypes["SystemInfo"],
 	getAppList?:ValueTypes["App"],
+	getGroupList?:ValueTypes["Group"],
 		__typename?: true
 }>;
 	["Mutation"]: AliasType<{
 setAdministrator?: [{	user:ValueTypes["UserInput"]},ValueTypes["ResultString"]],
 addUserDesktopApp?: [{	app:string},ValueTypes["ResultStringArray"]],
-removeUserDesktopApp?: [{	app:string},ValueTypes["ResultBoolean"]],
+createGroup?: [{	name:string},ValueTypes["Group"]],
+removeUserDesktopApp?: [{	app:string},ValueTypes["ResultStringArray"]],
 		__typename?: true
 }>;
 	["UserInput"]: {
@@ -101,9 +99,6 @@ export type ModelTypes = {
 	["ResultStringArray"]: {
 		result:string[]
 };
-	["ResultBoolean"]: {
-		result:boolean
-};
 	["SystemInfo"]: {
 		administrator:boolean,
 	apps:string[]
@@ -112,12 +107,14 @@ export type ModelTypes = {
 		loginByPassword:ModelTypes["ResultString"],
 	getUserByToken:ModelTypes["User"],
 	getSystemInfo:ModelTypes["SystemInfo"],
-	getAppList:ModelTypes["App"][]
+	getAppList:ModelTypes["App"][],
+	getGroupList:ModelTypes["Group"][]
 };
 	["Mutation"]: {
 		setAdministrator:ModelTypes["ResultString"],
 	addUserDesktopApp:ModelTypes["ResultStringArray"],
-	removeUserDesktopApp:ModelTypes["ResultBoolean"]
+	createGroup:ModelTypes["Group"],
+	removeUserDesktopApp:ModelTypes["ResultStringArray"]
 };
 	["UserInput"]: GraphQLTypes["UserInput"]
     }
@@ -160,10 +157,6 @@ export type GraphQLTypes = {
 	__typename: "ResultStringArray",
 	result: Array<string>
 };
-	["ResultBoolean"]: {
-	__typename: "ResultBoolean",
-	result: boolean
-};
 	["SystemInfo"]: {
 	__typename: "SystemInfo",
 	administrator: boolean,
@@ -174,13 +167,15 @@ export type GraphQLTypes = {
 	loginByPassword: GraphQLTypes["ResultString"],
 	getUserByToken: GraphQLTypes["User"],
 	getSystemInfo: GraphQLTypes["SystemInfo"],
-	getAppList: Array<GraphQLTypes["App"]>
+	getAppList: Array<GraphQLTypes["App"]>,
+	getGroupList: Array<GraphQLTypes["Group"]>
 };
 	["Mutation"]: {
 	__typename: "Mutation",
 	setAdministrator: GraphQLTypes["ResultString"],
 	addUserDesktopApp: GraphQLTypes["ResultStringArray"],
-	removeUserDesktopApp: GraphQLTypes["ResultBoolean"]
+	createGroup: GraphQLTypes["Group"],
+	removeUserDesktopApp: GraphQLTypes["ResultStringArray"]
 };
 	["UserInput"]: {
 		username: string,

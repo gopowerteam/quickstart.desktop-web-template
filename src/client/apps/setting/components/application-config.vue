@@ -1,50 +1,97 @@
 <template lang="pug">
 .application-config.absolute.inset-x-0.bottom-0.top-12
-    column-container.w-full
-        column-item(width='250px')
-            data-card.application-list(overflow)
-                .application-item.flex.items-center.cursor-pointer.space-x-2.py-5.px-2(
-                    v-for='app in apps'
-                    :class='{ active: app === currentApp }'
-                    @click='onChangeApp(app)'
-                )
-                    .app-image
-                        img.w-10(:src='app.icon')
-                    .app-name.text-xs {{ app.title }}
-        column-item(:flex='1')
-            data-card(overflow)
-                .application-data(v-if='model')
-                    a-form
-                        a-form-item(label='应用名称')
-                            a-input(v-model:value='model.title')
-                        a-form-item(label='应用图标')
-                            upload(@upload='onUpload')
-                                img.w-16(:src='model.icon')
-                        a-form-item(label='应用分组')
-                            a-select(
-                                v-model:value='model.group'
-                                :options='groups'
-                            )
+    data-card.application-list(overflow)
+        template(#action)
+            a-button(
+                type='link'
+                @click.prevent.stop='groupModal.visible = true'
+            ) 添加分组
+        a-collapse
+            a-collapse-panel(header='未分组')
+                template(#extra)
+                    .icon.px-3.py-1
+                        SettingOutlined(@clock='onChangeGroup()')
+                .flex
+                    .application-item.flex.flex-col.items-center.cursor-pointer.rounded.py-5.px-5(
+                        v-for='app in apps.filter(app => !app.group)'
+                        :class='{ active: app === currentApp }'
+                        @click='onChangeApp(app)'
+                    )
+                        .app-image
+                            img.w-10(:src='app.icon')
+                        .app-name.text-xs.pt-3 {{ app.title }}
+            a-collapse-panel(
+                v-for='group in groups'
+                :header='group.label'
+                :key='group.value'
+            )
 
-                a-empty.mt-40(v-else)
-                template(#footer v-if='currentApp')
-                    a-button(type='primary' @click='onUpdateApp') 更新
+    a-drawer(
+        :visible='!!currentApp'
+        @close='() => (currentApp = null)'
+        placement='bottom'
+        destroyOnClose
+        title='应用配置'
+        :height='400'
+    )
+        data-card
+            template(#footer)
+                a-button(type='primary' @click='onUpdateApp') 更新应用
+            a-form(v-if='appModel')
+                a-form-item(label='应用名称')
+                    a-input(v-model:value='appModel.title')
+                a-form-item(label='应用图标')
+                    upload(@upload='onUpload')
+                        img.w-16(:src='appModel.icon')
+                a-form-item(label='应用分组')
+                    a-select(v-model:value='appModel.group' :options='groups')
+    a-drawer(
+        :visible='!!currentGroup'
+        @close='() => (currentGroup = null)'
+        placement='bottom'
+    )
+        data-card
+            template(#footer)
+                a-button(type='primary' @click='onUpdateApp') 删除分组
+                a-button(type='primary' @click='onUpdateApp') 更新分组
+            a-form(v-if='groupModel')
+                a-form-item(label='分组名称')
+                    a-input(v-model:value='groupModel.name')
+    a-modal(title='创建分组' v-model:visible='groupModal.visible' @ok='onAddGroup')
+        a-form
+            a-form-item(label='分组名称')
+                a-input(v-model:value='groupModal.name')
 </template>
 
-<script setup lang="ts">
-import { onMounted, ref } from 'vue'
+<script setup lang="tsx">
+import { onMounted, ref, h } from 'vue'
 import { ApplicationList } from '@/config/application.config'
-import { message } from 'ant-design-vue'
+import { Input, message } from 'ant-design-vue'
 import { useGraphql } from '@/graphql'
+import { SettingOutlined } from '@ant-design/icons-vue'
+import { useModal } from '@gopowerteam/vue-modal'
 
-ref: apps = ref<any[]>([])
+const modal = useModal()
+
 ref: currentApp = ref<any>()
+ref: currentGroup = ref<any>()
+ref: apps = ref<any[]>([])
 ref: groups = ref<any[]>([])
-ref: model = ref<{
+
+ref: groupModal = ref({
+    visible: false,
+    name: ''
+})
+
+ref: appModel = ref<{
     name: string
     title: string
     icon: string
     group: string
+}>()
+
+ref: groupModel = ref<{
+    name: string
 }>()
 
 const graphql = useGraphql()
@@ -74,24 +121,54 @@ function getAppList() {
         })
         .then(({ getAppList: data }) => {
             apps = data
+            console.log(data)
         })
-    // request(applicationRequest.getAppList).then(({ GetAppList: data }) => {
-    //     apps.value = data
-    // })
 }
 
+function onAddGroup() {
+    if (groupModal.name) {
+        graphql
+            .mutation({
+                createGroup: [
+                    {
+                        name: groupModal.name
+                    },
+                    { id: true, name: true }
+                ]
+            })
+            .then(data => {
+                getGroupList()
+            })
+    }
+}
+
+function onChangeGroup() {}
+
 function onChangeApp(app) {
-    currentApp = app
-    model = {
+    appModel = {
         name: app.name,
         title: app.title,
         icon: app.icon,
         group: app.group ? app.group._id : ''
     }
-    getGroupList()
+
+    currentApp = app
 }
 
 function getGroupList() {
+    graphql
+        .query({
+            getGroupList: {
+                id: true,
+                name: true
+            }
+        })
+        .then(({ getGroupList: data }) => {
+            groups = data.map(x => ({
+                label: x.name,
+                value: x.id
+            }))
+        })
     // request(applicationRequest.getGroupList).then(({ GetGroupList: data }) => {
     //     const list = data.map(x => ({
     //         key: x._id,
@@ -111,7 +188,7 @@ function getGroupList() {
 
 function onUpdateApp() {
     // request(applicationRequest.updateApp, {
-    //     app: model.value
+    //     app: appModel.value
     // }).then(data => {
     //     getAppList()
     //     message.success('更新成功')

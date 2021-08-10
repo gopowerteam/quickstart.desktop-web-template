@@ -13,6 +13,10 @@
                 slot(name='action')
         .body(v-if='!overflow')
             slot
+            .footer.flex.flex-row-reverse.items-center.py-2(
+                v-if='$slots.footer'
+            )
+                slot(name='footer')
         .wrapper.flex.flex-col(
             :style='{ height: `calc(100% - ${$slots.action ? 60 : 12}px)` }'
             v-else
