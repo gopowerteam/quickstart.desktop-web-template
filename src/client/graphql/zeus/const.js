@@ -36,7 +36,7 @@ export const AllTypesProps = {
 			}
 		},
 		createGroup:{
-			name:{
+			title:{
 				type:"String",
 				array:false,
 				arrayRequired:false,
@@ -46,6 +46,30 @@ export const AllTypesProps = {
 		removeUserDesktopApp:{
 			app:{
 				type:"String",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		updateApp:{
+			app:{
+				type:"AppInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		updateGroup:{
+			group:{
+				type:"GroupInput",
+				array:false,
+				arrayRequired:false,
+				required:true
+			}
+		},
+		deleteGroup:{
+			id:{
+				type:"Float",
 				array:false,
 				arrayRequired:false,
 				required:true
@@ -71,13 +95,53 @@ export const AllTypesProps = {
 			arrayRequired:false,
 			required:false
 		}
+	},
+	AppInput:{
+		name:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		title:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		icon:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		group:{
+			type:"Float",
+			array:false,
+			arrayRequired:false,
+			required:false
+		}
+	},
+	GroupInput:{
+		id:{
+			type:"Float",
+			array:false,
+			arrayRequired:false,
+			required:true
+		},
+		title:{
+			type:"String",
+			array:false,
+			arrayRequired:false,
+			required:true
+		}
 	}
 }
 
 export const ReturnTypes = {
 	Group:{
 		id:"Float",
-		name:"String"
+		title:"String"
 	},
 	App:{
 		updatedAt:"Float",
@@ -106,6 +170,9 @@ export const ReturnTypes = {
 	ResultStringArray:{
 		result:"String"
 	},
+	ResultBoolean:{
+		result:"Boolean"
+	},
 	SystemInfo:{
 		administrator:"Boolean",
 		apps:"String"
@@ -121,6 +188,9 @@ export const ReturnTypes = {
 		setAdministrator:"ResultString",
 		addUserDesktopApp:"ResultStringArray",
 		createGroup:"Group",
-		removeUserDesktopApp:"ResultStringArray"
+		removeUserDesktopApp:"ResultStringArray",
+		updateApp:"ResultBoolean",
+		updateGroup:"ResultBoolean",
+		deleteGroup:"ResultBoolean"
 	}
 }

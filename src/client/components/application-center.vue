@@ -65,7 +65,7 @@ function getAppGroup(value?) {
         x => !value || x.title.includes(value)
     )
 
-    const groups = groupBy(apps, 'group.name')
+    const groups = groupBy(apps, 'group.title')
     return groups
 }
 

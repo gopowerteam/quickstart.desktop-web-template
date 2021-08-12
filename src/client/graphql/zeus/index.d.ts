@@ -4,7 +4,7 @@ type ZEUS_UNIONS = never
 export type ValueTypes = {
     ["Group"]: AliasType<{
 	id?:true,
-	name?:true,
+	title?:true,
 		__typename?: true
 }>;
 	["App"]: AliasType<{
@@ -39,6 +39,10 @@ export type ValueTypes = {
 	result?:true,
 		__typename?: true
 }>;
+	["ResultBoolean"]: AliasType<{
+	result?:true,
+		__typename?: true
+}>;
 	["SystemInfo"]: AliasType<{
 	administrator?:true,
 	apps?:true,
@@ -55,21 +59,34 @@ loginByPassword?: [{	username:string,	password:string},ValueTypes["ResultString"
 	["Mutation"]: AliasType<{
 setAdministrator?: [{	user:ValueTypes["UserInput"]},ValueTypes["ResultString"]],
 addUserDesktopApp?: [{	app:string},ValueTypes["ResultStringArray"]],
-createGroup?: [{	name:string},ValueTypes["Group"]],
+createGroup?: [{	title:string},ValueTypes["Group"]],
 removeUserDesktopApp?: [{	app:string},ValueTypes["ResultStringArray"]],
+updateApp?: [{	app:ValueTypes["AppInput"]},ValueTypes["ResultBoolean"]],
+updateGroup?: [{	group:ValueTypes["GroupInput"]},ValueTypes["ResultBoolean"]],
+deleteGroup?: [{	id:number},ValueTypes["ResultBoolean"]],
 		__typename?: true
 }>;
 	["UserInput"]: {
 	username:string,
 	password:string,
 	role?:string
+};
+	["AppInput"]: {
+	name:string,
+	title:string,
+	icon:string,
+	group?:number
+};
+	["GroupInput"]: {
+	id:number,
+	title:string
 }
   }
 
 export type ModelTypes = {
     ["Group"]: {
 		id:number,
-	name:string
+	title:string
 };
 	["App"]: {
 		updatedAt:number,
@@ -99,6 +116,9 @@ export type ModelTypes = {
 	["ResultStringArray"]: {
 		result:string[]
 };
+	["ResultBoolean"]: {
+		result:boolean
+};
 	["SystemInfo"]: {
 		administrator:boolean,
 	apps:string[]
@@ -114,16 +134,21 @@ export type ModelTypes = {
 		setAdministrator:ModelTypes["ResultString"],
 	addUserDesktopApp:ModelTypes["ResultStringArray"],
 	createGroup:ModelTypes["Group"],
-	removeUserDesktopApp:ModelTypes["ResultStringArray"]
+	removeUserDesktopApp:ModelTypes["ResultStringArray"],
+	updateApp:ModelTypes["ResultBoolean"],
+	updateGroup:ModelTypes["ResultBoolean"],
+	deleteGroup:ModelTypes["ResultBoolean"]
 };
-	["UserInput"]: GraphQLTypes["UserInput"]
+	["UserInput"]: GraphQLTypes["UserInput"];
+	["AppInput"]: GraphQLTypes["AppInput"];
+	["GroupInput"]: GraphQLTypes["GroupInput"]
     }
 
 export type GraphQLTypes = {
     ["Group"]: {
 	__typename: "Group",
 	id: number,
-	name: string
+	title: string
 };
 	["App"]: {
 	__typename: "App",
@@ -157,6 +182,10 @@ export type GraphQLTypes = {
 	__typename: "ResultStringArray",
 	result: Array<string>
 };
+	["ResultBoolean"]: {
+	__typename: "ResultBoolean",
+	result: boolean
+};
 	["SystemInfo"]: {
 	__typename: "SystemInfo",
 	administrator: boolean,
@@ -175,12 +204,25 @@ export type GraphQLTypes = {
 	setAdministrator: GraphQLTypes["ResultString"],
 	addUserDesktopApp: GraphQLTypes["ResultStringArray"],
 	createGroup: GraphQLTypes["Group"],
-	removeUserDesktopApp: GraphQLTypes["ResultStringArray"]
+	removeUserDesktopApp: GraphQLTypes["ResultStringArray"],
+	updateApp: GraphQLTypes["ResultBoolean"],
+	updateGroup: GraphQLTypes["ResultBoolean"],
+	deleteGroup: GraphQLTypes["ResultBoolean"]
 };
 	["UserInput"]: {
 		username: string,
 	password: string,
 	role?: string
+};
+	["AppInput"]: {
+		name: string,
+	title: string,
+	icon: string,
+	group?: number
+};
+	["GroupInput"]: {
+		id: number,
+	title: string
 }
     }
 export enum UserRole {

@@ -10,7 +10,7 @@
                     :class='{ active: group === currentGroup }'
                     @click='onChangeGroup(group)'
                 )
-                    .group-name {{ group.name }}
+                    .group-title {{ group.title }}
         column-item(:flex='1')
             data-card.flex-auto(overflow)
                 template(v-if='currentGroup' #footer)

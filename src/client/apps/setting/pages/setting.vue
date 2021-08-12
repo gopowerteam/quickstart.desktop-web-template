@@ -3,8 +3,8 @@ page-container
     a-tabs.absolute.inset-0(v-model:activeKey='currentPane')
         a-tab-pane(key='application' tab='应用管理')
             application-config(v-if='currentPane === "application"')
-        a-tab-pane(key='group' tab='分组管理')
-            group-config(v-if='currentPane === "group"')
+        //- a-tab-pane(key='group' tab='分组管理')
+        //-     group-config(v-if='currentPane === "group"')
         //- a-tab-pane(key='role' tab='权限管理')
         //-     role-config(v-if='currentPane === "role"')
 </template>

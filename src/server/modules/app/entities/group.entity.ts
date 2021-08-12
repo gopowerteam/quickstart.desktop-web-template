@@ -9,7 +9,7 @@ import { Field, ObjectType } from '@nestjs/graphql'
 export class Group extends pipe(EntityWithID)(EntityClass) {
     @Column()
     @Field()
-    name: string
+    title: string
 
     @OneToMany(() => App, app => app.group)
     apps: App[]

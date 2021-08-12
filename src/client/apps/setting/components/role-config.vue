@@ -71,7 +71,7 @@ function onUpdateRole() {
         roleid: currentRole.id,
         apps: currentApps
     }).then(data => {
-        console.log(data)
+        // console.log(data)
     })
 }
 

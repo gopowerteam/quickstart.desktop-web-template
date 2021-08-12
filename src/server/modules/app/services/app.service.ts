@@ -23,11 +23,72 @@ export class AppService {
     }
 
     /**
+     * 查询分组
+     * @param id
+     * @returns
+     */
+    async findGroup(id) {
+        return this.groupRepository.findOne(id)
+    }
+
+    /**
      * 获取应用列表
      * @returns
      */
     async getAppList() {
         return this.appRepository.find({ relations: ['group'] })
+    }
+
+    /**
+     * 更新应用信息
+     * @returns
+     */
+    async updateApp(app: Partial<App>) {
+        return this.appRepository.update(
+            {
+                name: app.name
+            },
+            {
+                title: app.title,
+                icon: app.icon,
+                group: app.group
+            }
+        )
+    }
+
+    /**
+     * 更新分组信息
+     * @returns
+     */
+    async updateGroup(group: Partial<Group>) {
+        const { id, ...data } = group
+        return this.groupRepository.update(
+            {
+                id
+            },
+            data
+        )
+    }
+
+    /**
+     * 更新分组信息
+     * @returns
+     */
+    async deleteGroup(id: number) {
+        const group = await this.findGroup(id)
+
+        // 解散分组应用
+        await this.appRepository.update(
+            {
+                group: group
+            },
+            {
+                group: undefined
+            }
+        )
+
+        // 移除分组
+        return this.groupRepository.delete(id)
     }
 
     /**
@@ -42,9 +103,9 @@ export class AppService {
      * 创建应用分组
      * @returns
      */
-    async createGroup(name: string) {
+    async createGroup(title: string) {
         return this.groupRepository.save({
-            name
+            title
         })
     }
 

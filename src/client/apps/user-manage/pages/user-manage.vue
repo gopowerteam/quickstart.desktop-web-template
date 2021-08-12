@@ -82,11 +82,11 @@ const data1 = [
 ]
 
 function onSubmit(data) {
-    console.log(convertToTree(data1, { key: 'id', parentKey: 'parentId' }))
+    // console.log(convertToTree(data1, { key: 'id', parentKey: 'parentId' }))
 }
 
 function onOpenModal() {
-    console.log(ModalTest)
+    // console.log(ModalTest)
     // modal.open({
     //     component: ModalTest
     // })

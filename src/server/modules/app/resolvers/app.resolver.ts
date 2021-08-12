@@ -1,3 +1,4 @@
+import { ConsoleLogger } from '@nestjs/common'
 import {
     Args,
     Field,
@@ -21,10 +22,11 @@ import { Group } from '@server/modules/app/entities/group.entity'
 import { AppService } from '@server/modules/app/services/app.service'
 import { User } from '@server/modules/user/entities/user.entity'
 import { UserService } from '@server/modules/user/services/user.service'
+import * as R from 'ramda'
 import { SystemInfo } from '../entities/system-info.entity'
 
 @InputType()
-class AppInput implements Partial<App> {
+class AppInput {
     @Field()
     name: string
 
@@ -33,6 +35,18 @@ class AppInput implements Partial<App> {
 
     @Field()
     icon: string
+
+    @Field({ nullable: true })
+    group?: number
+}
+
+@InputType()
+class GroupInput implements Partial<Group> {
+    @Field()
+    id: number
+
+    @Field()
+    title: string
 }
 
 @Resolver(of => App)
@@ -106,8 +120,8 @@ export class AppResolver {
      * @returns
      */
     @Mutation(returns => Group)
-    async createGroup(@Args('name') name: string) {
-        return await this.appService.createGroup(name)
+    async createGroup(@Args('title') title: string) {
+        return await this.appService.createGroup(title)
     }
 
     /**
@@ -124,6 +138,41 @@ export class AppResolver {
             ResultStringArray,
             user.desktop.map(x => x.name)
         )
+    }
+
+    @Mutation(returns => ResultBoolean)
+    async updateApp(@Args('app') app: AppInput) {
+        // 获取Group
+        const group = R.isNil(app.group)
+            ? app.group
+            : await this.appService.findGroup(app.group)
+
+        const { affected } = await this.appService.updateApp({
+            name: app.name,
+            title: app.title,
+            icon: app.icon,
+            group
+        })
+
+        return createResult(ResultBoolean, affected && affected > 0)
+    }
+
+    @Mutation(returns => ResultBoolean)
+    async updateGroup(@Args('group') group: GroupInput) {
+        const { affected } = await this.appService.updateGroup(group)
+
+        return createResult(ResultBoolean, affected && affected > 0)
+    }
+
+    /**
+     * 删除分组
+     * @returns
+     */
+    @Mutation(returns => ResultBoolean)
+    async deleteGroup(@Args('id') id: number) {
+        const { affected } = await this.appService.deleteGroup(id)
+
+        return createResult(ResultBoolean, affected && affected > 0)
     }
 
     @ResolveField(returns => Group)
